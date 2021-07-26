@@ -160,16 +160,28 @@ async def on_message(message):
 			await logs_channel.send(embed=embed)
 			await message.add_reaction("✅")
 
-	if message.channel.id == 842185255221198858 and message.author.id == 723242226855182468:
-		choice = ["<:blush~2:846912330465017886>", "<:hug:846912225431126076>", "<:salute:846442131400556564>", "<:Boznis:851800792926257152>",
+	if message.channel.id == 842185255221198858 or message.channel.id == 859122987071569950:
+		choice = ["<:blush~2:846912330465017886>", "<:uhh:847601058904932362>", "<:hug:846912225431126076>", "<:salute:846442131400556564>", "<:Boznis:851800792926257152>",
 		"<:umm:842192405754806342", ":aamna:862291911611777054>", "<:whenlifegetsyou:862326647976624188>", "<:sweat~1:820756196876615710>"]
 		emoji = randchoice(choice)
 		
 		if "chaos" in message.content or "Chaos" in  message.content or "ahmed" in  message.content or "Ahmed" in message.content:
 			await message.add_reaction(f"{emoji}")
 		
+		if "aamna" in message.content or "Aamna" in  message.content:
+			await message.add_reaction(f"{emoji}")
+
+		if "hades" in message.content or "Hades" in message.content:
+			await message.add_reaction(f"{emoji}")
+
+		if "dirtygamer" in message.content or "Dirtygamer" in message.content or "Hashir" in message.content or "hashir" in message.content:
+			await message.add_reaction(f"{emoji}")
+		
+		
+	if message.channel.id == 842185255221198858:
 		if "ily" in message.content or "Ily" in message.content:
 			await message.reply(f"Ily 2 nibbe {emoji}")
+
 
 	if not bot.user == message.author:
 		if message.channel.id == 869011766066163742:
