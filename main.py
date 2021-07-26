@@ -9,6 +9,7 @@ from discord.errors import Forbidden
 from typing import Optional
 from random import choice as randchoice
 from discord.ext import tasks
+import randomstuff
 
 bot = commands.Bot(description = "Chaos op", command_prefix = "!")
 bot.remove_command("help")
@@ -146,10 +147,12 @@ async def ban(ctx, target: discord.Member, reason = Optional[str] == "No reason 
 #ON MESSAGE EVENT
 @bot.event
 async def on_message(message):
-	if bot.user.mentioned_in(message) and message.content.startswith("<") and message.content.endswith(">"):
-		await message.reply(content="Try using slash commands aka `/`")
-	
 	if not message.author.bot:
+	
+		if bot.user.mentioned_in(message) and message.content.startswith("<") and message.content.endswith(">"):
+			await message.reply(content="Try using slash commands aka `/`")
+		
+		
 		if isinstance(message.channel, DMChannel):
 			logs_channel = bot.get_guild(795726142161944637).get_channel(868251065546584124)
 			embed = Embed(title="DM Received",
@@ -160,30 +163,37 @@ async def on_message(message):
 			await logs_channel.send(embed=embed)
 			await message.add_reaction("✅")
 
-	if message.channel.id == 842185255221198858 or message.channel.id == 859122987071569950:
-		choice = ["<:blush~2:846912330465017886>", "<:uhh:847601058904932362>", "<:hug:846912225431126076>", "<:salute:846442131400556564>", "<:Boznis:851800792926257152>",
-		"<:umm:842192405754806342", ":aamna:862291911611777054>", "<:whenlifegetsyou:862326647976624188>", "<:sweat~1:820756196876615710>"]
-		emoji = randchoice(choice)
-		
-		if "chaos" in message.content or "Chaos" in  message.content or "ahmed" in  message.content or "Ahmed" in message.content:
-			await message.add_reaction(f"{emoji}")
-		
-		if "aamna" in message.content or "Aamna" in  message.content:
-			await message.add_reaction(f"{emoji}")
+		if message.channel.id == 842185255221198858 or message.channel.id == 859122987071569950:
+			if message.author != bot.user:
+				choice = ["<:blush~2:846912330465017886>", "<:uhh:847601058904932362>", "<:hug:846912225431126076>", "<:salute:846442131400556564>", "<:Boznis:851800792926257152>",
+				"<:umm:842192405754806342>", "<:aamna:862291911611777054>", "<:whenlifegetsyou:862326647976624188>", "<:sweat~1:820756196876615710>"]
+				emoji = randchoice(choice)
+				
+				if "chaos" in message.content or "Chaos" in  message.content or "ahmed" in  message.content or "Ahmed" in message.content:
+					await message.add_reaction(f"{emoji}")
+				
+				if "aamna" in message.content or "Aamna" in  message.content:
+					await message.add_reaction(f"{emoji}")
 
-		if "hades" in message.content or "Hades" in message.content:
-			await message.add_reaction(f"{emoji}")
+				if "hades" in message.content or "Hades" in message.content:
+					await message.add_reaction(f"{emoji}")
 
-		if "dirtygamer" in message.content or "Dirtygamer" in message.content or "Hashir" in message.content or "hashir" in message.content:
-			await message.add_reaction(f"{emoji}")
-		
-		
-	if message.channel.id == 842185255221198858:
-		if "ily" in message.content or "Ily" in message.content:
-			await message.reply(f"Ily 2 nibbe {emoji}")
+				if "dirtygamer" in message.content or "Dirtygamer" in message.content or "Hashir" in message.content or "hashir" in message.content:
+					await message.add_reaction(f"{emoji}")
+				
+				if message.content == "gay" or message.content == "Gay":
+					if message.author.id == 723242226855182468:
+						return await message.reply("<@478815409177362432> <@569163565160857620>")
+					else:
+						await message.add_reaction(f"{emoji}")			
+				
+				if "ily" in message.content or "Ily" in message.content:				
+					if message.author.id == 723242226855182468:
+						return await message.reply(f"Ily 2 nibbe {emoji}")
+					else:
+						await message.reply(f"Ily 2 king {emoji}")
 
 
-	if not bot.user == message.author:
 		if message.channel.id == 869011766066163742:
 			if "@everyone" not in message.content and "@here" not in message.content:
 				
@@ -193,43 +203,60 @@ async def on_message(message):
 						await message.reply(response.message)
 				
 				except:
-					pass
+				 	pass
 					
 			else:
 				await message.reply("You really thought that would work? <:yay:867816037079318568>")
  
 
-#ON MEMBER JOIN EVENT
-@bot.event
-async def on_member_join(ctx, member):
-	logs_channel = bot.get_guild(795726142161944637).get_channel(868251065546584124)
+# #ON MEMBER JOIN EVENT
+# @bot.event
+# async def on_member_join(member):
+# 	print("Member Joined!")
+# 	logs_channel = bot.get_guild(795726142161944637).get_channel(868251065546584124)
+# 	empty_role = bot.get_guild(795726142161944637).get_role(818950383216623696)
 	
-	embed = Embed(title=f"{member.name} Just joined {ctx.guild.name}!", 
-						color =0x000000, timestap=datetime.utcnow())
-	embed.set_thumbnail(url=member.avatar_url)
-	fields = [("Name", f"{member.mention}丨{member.name}#{member.discriminator}", False),
-				("ID", f"{member.id}", False),				
-				("Joined at", member.joined_at.strftime("%d/%m/%Y"), True),
-				("Create at", member.created_at.strftime("%d/%m/%Y"), True),
-				("Status", str(member.status).title(), True)]	
-	for name, value, inline in fields:
-		embed.add_field(name=name, value=value, inline=inline)
+# 	embed = Embed(title=f"{member.name} Just joined {member.guild.name}!", 
+# 						color =0x000000, timestap=datetime.utcnow())
+# 	embed.set_thumbnail(url=member.avatar_url)
+# 	fields = [("Name", f"{member.mention}丨{member.name}#{member.discriminator}", False),
+# 				("ID", f"{member.id}", False),				
+# 				("Joined at", member.joined_at.strftime("%d/%m/%Y"), True),
+# 				("Create at", member.created_at.strftime("%d/%m/%Y"), True),
+# 				("Status", str(member.status).title(), True)]	
+# 	for name, value, inline in fields:
+# 		embed.add_field(name=name, value=value, inline=inline)
 
-	await logs_channel.send("`@everyone`",embed=embed)
+# 	await logs_channel.send("`@everyone`",embed=embed)
 
-	embed_2 = Embed(title="Member Roles",
-		description=f"Do you want me to hand out <@&818950383216623696> role to {member.mention}? \n Please react accordingly",
-		color=0x000000)
+# 	embed_2 = Embed(title="Member Roles",
+# 		description=f"Do you want me to hand out <@&818950383216623696> role to {member.mention}? \n Please react accordingly",
+# 		color=0x000000)
 
-	this = await logs_channel.send(embed=embed_2)
-	await this.add_reaction("✅")
-	await this.add_reaction("❌")
+# 	this = await logs_channel.send(embed=embed_2)
+# 	await this.add_reaction("✅")
+# 	await this.add_reaction("❌")
+
+# 	def check(reaction, user):
+# 		return user == message.author and str(reaction.emoji) == '✅'
+
+# 	try:
+# 		reaction, user = await bot.wait_for('reaction_add', timeout=43200, check=check)
+    
+# 	except asyncio.TimeoutError:
+# 		await this.clear_reaction("✅")
+# 		await this.clear_reaction("❌")
+# 		await this.edit(content="Session Expired!")
+    
+# 	else:
+# 		await member.add_role(empty_role)
+# 		await this.edit(content="Added roles successfully!")
 
 
 #ON MESSAGE DELETE EVENT
 @bot.event
 async def on_message_delete(message):
-	logs_channel = bot.get_guild(795726142161944637).get_channel(826461301806334003)
+	logs_channel = bot.get_guild(795726142161944637).get_channel(868251065546584124)
 	guild = bot.get_guild(795726142161944637)
 	if message.mentions:
 		if not message.author == guild.me:
