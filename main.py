@@ -189,7 +189,8 @@ async def on_message(message):
 				
 				if "ily" in message.content or "Ily" in message.content:				
 					if message.author.id == 723242226855182468:
-						return await message.reply(f"Ily 2 nibbe {emoji}")
+						choice = [f"Ily 2 nibbe {emoji}", f"Ily 2 nibbe {emoji}", f"Ily 2 nibbe  {emoji}", f"Ily 2 nibbe  {emoji}", f"Ily 2 nibbe  {emoji}", "ew <:cringe:842192069678334014>", "ew <:cringe~1:854735604972912640>", "k, no one asked <:faku:847526893842464798>"]
+						return await message.reply(f" {randchoice(choice)}")
 					else:
 						await message.reply(f"Ily 2 king {emoji}")
 
