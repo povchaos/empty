@@ -11,7 +11,8 @@ from random import choice as randchoice
 from discord.ext import tasks
 import randomstuff
 
-bot = commands.Bot(description = "Chaos op", command_prefix = "!")
+intents = discord.Intents.all()
+bot = commands.Bot(command_prefix='!', intents=intents)
 bot.remove_command("help")
 slash = SlashCommand(bot, sync_commands=True)
 
@@ -32,17 +33,34 @@ def convert(time):
 		return val * time_dict[unit]
 
 
+
 #HELP COMMAND
 @slash.slash(name="help",description="Stop it, Get some help")
 async def show_help(ctx):
 	guild = ctx.guild
 	embed = Embed(title="Help",
-		description=f"I have a total of **8** commands",
+		description=f"I have a total of **{len(bot.commands)}** commands",
 		color=0x000000)
 	embed.add_field(name = "Miscellaneous Commands", value = " `ping`, `setnick`, `avatar`, `role`, `remindme`", inline = False)
 	embed.add_field(name = "Moderation Commands", value = "`kick`, `ban`", inline = False)
+	embed.add_field(name = "Functions", value = "**-** Replys to `imy`, `ily`, `gay` and `ban` \n **-** Ai-chat aka <#869011766066163742> \n **-** Some stupid loops \n **-** Ghost ping detector \n **-** Modmail System \n **-** Keyword reactions", inline = False)
+	embed.add_field(name = "Chad Developer", value = "<@726480855689724105>丨Lord Chaos#3393", inline = False)
 	embed.set_thumbnail(url = guild.me.avatar_url)
 	await ctx.send(embed=embed)
+
+@bot.command(name="help",description="Stop it, Get some help")
+async def show_help(ctx):
+	guild = ctx.guild
+	embed = Embed(title="Help",
+		description=f"I have a total of **{len(bot.commands)}** commands",
+		color=0x000000)
+	embed.add_field(name = "Miscellaneous Commands", value = " `ping`, `setnick`, `avatar`, `role`, `remindme`", inline = False)
+	embed.add_field(name = "Moderation Commands", value = "`kick`, `ban`", inline = False)
+	embed.add_field(name = "Functions", value = "**-** Replys to `imy`, `ily`, `gay` and `ban` \n **-** Ai-chat aka <#869011766066163742> \n **-** Some stupid loops \n **-** Ghost ping detector \n **-** Modmail System \n **-** Keyword reactions", inline = False)
+	embed.add_field(name = "Chad Developer", value = "<@726480855689724105>丨Lord Chaos#3393", inline = False)
+	embed.set_thumbnail(url = guild.me.avatar_url)
+	await ctx.send(embed=embed)
+
 
 
 #ROLE COMMAND
@@ -63,14 +81,38 @@ async def roles(ctx, target: discord.Member, role: discord.Role):
 		embed = Embed(description=f"You cannot edit roles for {target.mention}", color=0x000000)
 		await ctx.send(embed=embed)
 
+@bot.command(name="role", description="Add or remove user roles")
+async def roles(ctx, target: discord.Member, role: discord.Role):
+	try:	
+		if role not in target.roles:
+			await target.add_roles(role)
+			embed = Embed(description=f"Added **{role.mention}** to **{target.mention}**", color=0x000000)
+			await ctx.send(embed=embed)
+
+		else:
+			await target.remove_roles(role)
+			embed = Embed(description=f"Removed **{role.mention}** from **{target.mention}**",  color=0x000000)
+			await ctx.send(embed=embed)
+	
+	except Forbidden:
+		embed = Embed(description=f"You cannot edit roles for {target.mention}", color=0x000000)
+		await ctx.send(embed=embed)
+
+
+
+#SAY COMMAND
 @bot.command(name="say")
 async def say(ctx, message):
 	await ctx.channel.send(f"{message}")
 
+
+
+#EMBED COMMAND
 @bot.command(name="embed")
 async def embed(ctx, message):
 	embed = Embed(description = f"{message}", color = 0x000000)
 	await ctx.channel.send(embed=embed)
+
 
 
 #SET NICK COMMAND
@@ -82,6 +124,16 @@ async def set_nick(ctx, target: discord.Member, nickname):
 		await ctx.send(embed=embed)
 	except Forbidden:
 		await ctx.send(f"I cant change **{target.name}#{target.discriminator}**'s name")
+
+@bot.command(name="setnick", description="Change User Nicknames")
+async def set_nick(ctx, target: discord.Member, nickname):
+	try:
+		await target.edit(nick=nickname)
+		embed = Embed(description=f"Changed **{target.name}#{target.discriminator}**'s name to **{nickname}**", color=0x000000)
+		await ctx.send(embed=embed)
+	except Forbidden:
+		await ctx.send(f"I cant change **{target.name}#{target.discriminator}**'s name")
+
 
 
 #REMINDER COMMAND
@@ -111,6 +163,33 @@ async def remindme(ctx, time, *, message):
 	except:
 		return await ctx.send("Please enter either `s`, `m`, `h` or `d` after the integer in reminder time!")
 
+@bot.command(name="remindme", description="Set a reminder")
+async def remindme(ctx, time, *, message):
+	try:
+		sleep_time = convert(time)
+
+		try:
+			await ctx.author.send(f"I will remind you after **{time}** with the message **{message}**")
+			await ctx.channel.send("Check your dms...")
+		
+		except:
+			await ctx.channel.send(f"I will remind you after **{time}** with the message **{message}** \n <:uhh:847601058904932362> Also enable your dms bruh")
+		
+		await asyncio.sleep(sleep_time)
+
+		embed = Embed(title="Reminder",
+			description=f"{message}",
+			color=0x000000)
+		try:
+			await ctx.author.send(embed=embed)
+		
+		except:
+			await ctx.channel.send(f"||{ctx.author.mention}||",embed=embed)
+
+	except:
+		return await ctx.send("Please enter either `s`, `m`, `h` or `d` after the integer in reminder time!")
+
+
 
 #AV COMMAND
 @slash.slash(name="avatar",description="User avatar")
@@ -120,12 +199,26 @@ async def avatar(ctx, target: Optional[discord.Member]):
 	embed.set_image(url=f"{target.avatar_url}")
 	await ctx.send(embed = embed)
 
+@bot.command(name="avatar",description="User avatar")
+async def avatar(ctx, target: Optional[discord.Member]):
+	target = target or ctx.author
+	embed = Embed(title=f"{target.display_name}'s Avatar",url=f"{target.avatar_url}",color=0x000000)
+	embed.set_image(url=f"{target.avatar_url}")
+	await ctx.send(embed = embed)
+
+
 
 #PING COMMAND
 @slash.slash(name="ping", description="Bot Latency")
 async def ping(ctx):
 	embed = Embed(description=f"Pong! Latency is **{round(bot.latency*1000)}** ms",color=0x000000)
 	await ctx.send(embed=embed)
+
+@bot.command(name="ping", description="Bot Latency")
+async def ping(ctx):
+	embed = Embed(description=f"Pong! Latency is **{round(bot.latency*1000)}** ms",color=0x000000)
+	await ctx.send(embed=embed)
+
 
 
 #KICK COMMAND
@@ -135,6 +228,13 @@ async def kick(ctx, target: discord.Member, reason = Optional[str] == "No reason
 	embed = Embed(description=f"Successfully kicked **{target.name}#{target.discriminator}**", color=0x000000)
 	await ctx.send(embed=embed)
 
+@bot.command(name="kick", description="Kick Users")
+async def kick(ctx, target: discord.Member, reason = Optional[str] == "No reason provided"):
+	await target.kick(reason = reason)
+	embed = Embed(description=f"Successfully kicked **{target.name}#{target.discriminator}**", color=0x000000)
+	await ctx.send(embed=embed)
+
+
 
 #BAN COMMAND
 @slash.slash(name="ban", description="Ban Users")
@@ -143,16 +243,31 @@ async def ban(ctx, target: discord.Member, reason = Optional[str] == "No reason 
 	embed = Embed(description=f"Successfully banned **{target.name}#{target.discriminator}**", color=0x000000)
 	await ctx.send(embed=embed)
 
+@bot.command(name="ban", description="Ban Users")
+async def ban(ctx, target: discord.Member, reason = Optional[str] == "No reason provided"):
+	await target.ban(reason = reason)
+	embed = Embed(description=f"Successfully banned **{target.name}#{target.discriminator}**", color=0x000000)
+	await ctx.send(embed=embed)
+
+
 
 #ON MESSAGE EVENT
 @bot.event
 async def on_message(message):
 	if not message.author.bot:
-	
+		choice = ["<:blush:846912330465017886>", "<:uhh:847601058904932362>", "<:hug:846912225431126076>", "<:salute:846442131400556564>", "<:Boznis:851800792926257152>",
+		"<:umm:842192405754806342>", "<:aamna:862291911611777054>", "<:whenlifegetsyou:862326647976624188>", "<:sweat:820756196876615710>"]
+		emoji = randchoice(choice)
+
+		
+		#BOT MENTION EVENT
 		if bot.user.mentioned_in(message) and message.content.startswith("<") and message.content.endswith(">"):
-			await message.reply(content="Try using slash commands aka `/`")
+			choice_69 = ["Try using slash commands aka `/`", "Slash commands || aka  `/` || exist for a reason. Consider using them???", "My prefix is `!` but slash commands || aka `/` || are better, no cap",
+			"Chaos based me on slash commands || aka `/` || for some reason", "`/help` for help", "Need help? Just use slash help command || aka `/help` ||"]
+			await message.reply(f"{randchoice(choice_69)}")
 		
 		
+		#BOT DMS EVENT
 		if isinstance(message.channel, DMChannel):
 			logs_channel = bot.get_guild(795726142161944637).get_channel(868251065546584124)
 			embed = Embed(title="DM Received",
@@ -163,38 +278,110 @@ async def on_message(message):
 			await logs_channel.send(embed=embed)
 			await message.add_reaction("✅")
 
-		if message.channel.id == 842185255221198858 or message.channel.id == 859122987071569950:
-			if message.author != bot.user:
-				choice = ["<:blush~2:846912330465017886>", "<:uhh:847601058904932362>", "<:hug:846912225431126076>", "<:salute:846442131400556564>", "<:Boznis:851800792926257152>",
-				"<:umm:842192405754806342>", "<:aamna:862291911611777054>", "<:whenlifegetsyou:862326647976624188>", "<:sweat~1:820756196876615710>"]
-				emoji = randchoice(choice)
-				
-				if "chaos" in message.content or "Chaos" in  message.content or "ahmed" in  message.content or "Ahmed" in message.content:
-					await message.add_reaction(f"{emoji}")
-				
-				if "aamna" in message.content or "Aamna" in  message.content:
-					await message.add_reaction(f"{emoji}")
+		
+		#KEYWORD EVENTS
+		if not message.author.bot:	
+			
+			#REACTION EVENTS
+			if "chaos" in message.content or "Chaos" in  message.content or "ahmed" in  message.content or "Ahmed" in message.content:
+				await message.add_reaction(f"{emoji}")
+			
+			if "aamna" in message.content or "Aamna" in  message.content:
+				await message.add_reaction(f"{emoji}")
 
-				if "hades" in message.content or "Hades" in message.content:
-					await message.add_reaction(f"{emoji}")
+			if "hades" in message.content or "Hades" in message.content:
+				await message.add_reaction(f"{emoji}")
 
-				if "dirtygamer" in message.content or "Dirtygamer" in message.content or "Hashir" in message.content or "hashir" in message.content:
-					await message.add_reaction(f"{emoji}")
-				
-				if message.content == "gay" or message.content == "Gay":
-					if message.author.id == 723242226855182468:
-						return await message.reply("<@478815409177362432> <@569163565160857620>")
+			if "dirtygamer" in message.content or "Dirtygamer" in message.content or "Hashir" in message.content or "hashir" in message.content:
+				await message.add_reaction(f"{emoji}")
+			
+			if message.content == "gay" or message.content == "Gay":
+				if message.author.id == 723242226855182468:
+					return await message.reply("<@478815409177362432> <@569163565160857620>")
+				else:
+					await message.add_reaction("<:uhh:847601058904932362>")			
+			
+			#RESPONSE EVENTS
+			if message.content == "Ily" or message.content == "ily":
+				if message.reference is not None:
+					if message.reference.cached_message is None:
+						channel = bot.get_channel(message.reference.channel_id)
+						msg = await channel.fetch_message(message.reference.message_id)
+						if msg.author != bot.user:
+							return await message.reply(f"Where is my ily???")					
+					
 					else:
-						await message.add_reaction(f"{emoji}")			
+						if message.reference.cached_message.author != bot.user:
+							return await message.reply(f"Where is my ily???")
 				
-				if "ily" in message.content or "Ily" in message.content:				
-					if message.author.id == 723242226855182468:
-						choice = [f"Ily 2 nibbe {emoji}", f"Ily 2 nibbe {emoji}", f"Ily 2 nibbe  {emoji}", f"Ily 2 nibbe  {emoji}", f"Ily 2 nibbe  {emoji}", "ew <:cringe:842192069678334014>", "ew <:cringe~1:854735604972912640>", "k, no one asked <:faku:847526893842464798>"]
-						return await message.reply(f" {randchoice(choice)}")
+				if message.author.id == 723242226855182468:# or message.author.id == 726480855689724105:
+					choice = [f"Ily 2 nibbe {emoji}", f"Ily 2 nibbe {emoji}", f"Ily 2 nibbe  {emoji}", f"Ily 2 nibbe  {emoji}", f"Ily 2 nibbe  {emoji}", "ew <:cringe:842192069678334014>", "ew <:cringe:854735604972912640>", "k, no one asked <:faku:847526893842464798>"]
+					return await message.reply(f" {randchoice(choice)}")
+				
+				else:
+					await message.reply(f"Ily 2 king {emoji}")
+
+			if "I miss you" in message.content or "i miss you" in message.content or "Imy" in message.content or "imy" in message.content:
+				if message.reference is not None:
+					if message.reference.cached_message is None:
+						channel = bot.get_channel(message.reference.channel_id)
+						msg = await channel.fetch_message(message.reference.message_id)
+						if msg.author != bot.user:
+							return await message.reply(f"And you dont miss me???")					
+					
 					else:
-						await message.reply(f"Ily 2 king {emoji}")
+						if message.reference.cached_message.author != bot.user:
+							return await message.reply(f"And you dont miss me???")
+				
+				if message.author.id == 723242226855182468:# or message.author.id == 726480855689724105:
+					choice = [f"Ily 2 nibbe {emoji}", f"Imy 2 nibbe {emoji}", f"Imy 2 nibbe  {emoji}", f"Imy 2 nibbe  {emoji}", f"Imy 2 nibbe  {emoji}", "ew <:cringe:842192069678334014>", "ew <:cringe:854735604972912640>", "k, no one asked <:faku:847526893842464798>"]
+					return await message.reply(f" {randchoice(choice)}")
+				
+				else:
+					await message.reply(f"Imy 2 king {emoji}")
 
+			
+			if message.content == "ban" or message.content == "Ban":
+				if message.reference is not None:
+					if message.reference.cached_message is None:
+						channel = bot.get_channel(message.reference.channel_id)
+						msg = await channel.fetch_message(message.reference.message_id)
+						if msg.author != bot.user:
+							return await msg.reply(f"Ayo dont make me ban you")
+						
+						else:
+							return await message.reply("Ban myself? Aight")
 
+					else:
+						msg = message.reference.cached_message
+						if msg.author != bot.user:
+							return await msg.reply(f"Ayo dont make me ban you")
+
+						else:
+							return await message.reply("Ban myself? Aight")
+
+			if message.content == "gay" or message.content == "Gay":
+				if message.reference is not None:
+					if message.reference.cached_message is None:
+						channel = bot.get_channel(message.reference.channel_id)
+						msg = await channel.fetch_message(message.reference.message_id)
+						if msg.author != bot.user:
+							return await msg.reply("https://tenor.com/view/why-uganda-are-you-gay-you-gif-12775398")
+						
+						else:
+							return await message.reply("https://tenor.com/view/obama-what-seriously-wtf-gif-12341428")
+
+					else:
+						msg = message.reference.cached_message
+						if msg.author != bot.user:
+							return await msg.reply("https://tenor.com/view/why-uganda-are-you-gay-you-gif-12775398")
+
+						else:
+							return await message.reply("https://tenor.com/view/obama-what-seriously-wtf-gif-12341428")
+
+		
+
+		#AI CHAT FUNCTION
 		if message.channel.id == 869011766066163742:
 			if "@everyone" not in message.content and "@here" not in message.content:
 				
@@ -210,48 +397,50 @@ async def on_message(message):
 				await message.reply("You really thought that would work? <:yay:867816037079318568>")
  
 
-# #ON MEMBER JOIN EVENT
-# @bot.event
-# async def on_member_join(member):
-# 	print("Member Joined!")
-# 	logs_channel = bot.get_guild(795726142161944637).get_channel(868251065546584124)
-# 	empty_role = bot.get_guild(795726142161944637).get_role(818950383216623696)
+
+#ON MEMBER JOIN EVENT
+@bot.event
+async def on_member_join(member):
+	logs_channel = bot.get_guild(795726142161944637).get_channel(868251065546584124)
+	empty_role = bot.get_guild(795726142161944637).get_role(818950383216623696)
 	
-# 	embed = Embed(title=f"{member.name} Just joined {member.guild.name}!", 
-# 						color =0x000000, timestap=datetime.utcnow())
-# 	embed.set_thumbnail(url=member.avatar_url)
-# 	fields = [("Name", f"{member.mention}丨{member.name}#{member.discriminator}", False),
-# 				("ID", f"{member.id}", False),				
-# 				("Joined at", member.joined_at.strftime("%d/%m/%Y"), True),
-# 				("Create at", member.created_at.strftime("%d/%m/%Y"), True),
-# 				("Status", str(member.status).title(), True)]	
-# 	for name, value, inline in fields:
-# 		embed.add_field(name=name, value=value, inline=inline)
+	embed = Embed(title=f"{member.name} Just joined {member.guild.name}!", 
+						color =0x000000, timestap=datetime.utcnow())
+	embed.set_thumbnail(url=member.avatar_url)
+	fields = [("Name", f"**{member.mention}丨{member.name}#{member.discriminator}**", False),
+				("ID", f"{member.id}", False),				
+				("Joined on", member.joined_at.strftime("%d/%m/%Y"), True),
+				("Create on", member.created_at.strftime("%d/%m/%Y"), True),
+				("Status", str(member.status).title(), True)]	
+	for name, value, inline in fields:
+		embed.add_field(name=name, value=value, inline=inline)
 
-# 	await logs_channel.send("`@everyone`",embed=embed)
+	await logs_channel.send("@everyone",embed=embed)
 
-# 	embed_2 = Embed(title="Member Roles",
-# 		description=f"Do you want me to hand out <@&818950383216623696> role to {member.mention}? \n Please react accordingly",
-# 		color=0x000000)
+	embed_2 = Embed(title="Member Roles",
+		description=f"**Do you want me to hand out <@&818950383216623696> role to {member.mention}?** \n **Please react accordingly within `12 hours`** \n **Authorized Personnel:** <@726480855689724105>, <@723242226855182468>**",
+		color=0x000000)
 
-# 	this = await logs_channel.send(embed=embed_2)
-# 	await this.add_reaction("✅")
-# 	await this.add_reaction("❌")
+	this = await logs_channel.send(embed=embed_2)
+	await this.add_reaction("✅")
 
-# 	def check(reaction, user):
-# 		return user == message.author and str(reaction.emoji) == '✅'
+	def check(reaction, user):
+		return user.id == 726480855689724105 or user.id == 723242226855182468 and str(reaction.emoji) == '✅'
 
-# 	try:
-# 		reaction, user = await bot.wait_for('reaction_add', timeout=43200, check=check)
+	try:
+		reaction, user = await bot.wait_for('reaction_add', timeout=43200, check=check)
     
-# 	except asyncio.TimeoutError:
-# 		await this.clear_reaction("✅")
-# 		await this.clear_reaction("❌")
-# 		await this.edit(content="Session Expired!")
-    
-# 	else:
-# 		await member.add_role(empty_role)
-# 		await this.edit(content="Added roles successfully!")
+	except asyncio.TimeoutError:
+		await this.clear_reaction("✅")
+		embed = Embed(description="**Request Expired!**", color=0x000000)
+		await this.edit(embed=embed)
+
+	else:
+		await this.clear_reaction("✅")
+		await member.add_roles(empty_role)
+		embed = Embed(description="**Added roles successfully!**", color=0x000000)
+		await this.edit(embed=embed)
+
 
 
 #ON MESSAGE DELETE EVENT
@@ -281,10 +470,35 @@ async def on_message_delete(message):
 					log_embed.add_field(name=name, value=value, inline=inline)
 				return await logs_channel.send(embed=log_embed)
 
+
+
+#LOOPS
+@tasks.loop(seconds = 86400*2)
+async def how_are_you():
+	await asyncio.sleep(86400)
+	this_channel = bot.get_guild(795726142161944637).get_channel(842185255221198858)
+	greetings = ["Whats up nibbe", "Hows it going nibbe?", "How have you been nibbe?", "How are you doing nibbe?", "Check pins",
+	"Whats cooking nibbe?", "Long time no see nibbe...", "Sup nibbe?", "Hey nibbe", "What’s up Ameena", "Whats cooking nibbe?",
+	"Kiya howa?", "Kiya chal raha hay?", "You ok nibbe?", "Idk why im doing this...", "Why am i doing this again...?", "Sigh"]
+	# return await this_channel.send(f"<@723242226855182468> {randchoice(greetings)}")
+	print({randchoice(greetings)})
+
+@tasks.loop(seconds = 86400*2)
+async def playlist():
+	await asyncio.sleep(86400)
+	embed = Embed(description="**[My stupid playlist](spotify:playlist:1eoCjzINYSgvJXDbt6T7kA) \n [Ahh Sad Boy Hours Sigh](spotify:playlist:7Mu7AxSsveFAWtN9kUnOEf) \n [Take this one also cuz why not](spotify:playlist:5ESl8XOwhjt8PD2gHzWMxn) \n Idk why im doing this...**",
+		color=0x000000)
+	# return await this_channel.send(embed=embed)
+	print("2nd loop")
+
+
+
 #ON READY EVENT
 @bot.event
 async def on_ready():
 	config_channel = bot.get_guild(795726142161944637).get_channel(859726638111260692)
+	how_are_you.start()
+	playlist.start()
 	await bot.change_presence(status = discord.Status.dnd ,activity=discord.Activity(type=discord.ActivityType.watching, name="Emptiness"))
 	await config_channel.send("<:uhh:847601058904932362>")
 	print("Bot is Ready")
