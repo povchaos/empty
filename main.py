@@ -43,7 +43,7 @@ async def show_help(ctx):
 		color=0x000000)
 	embed.add_field(name = "Miscellaneous Commands", value = " `ping`, `setnick`, `avatar`, `role`, `remindme`", inline = False)
 	embed.add_field(name = "Moderation Commands", value = "`kick`, `ban`", inline = False)
-	embed.add_field(name = "Functions", value = "**-** Replys to `imy`, `ily`, `gay` and `ban` \n **-** Ai-chat aka <#869011766066163742> \n **-** Some stupid loops \n **-** Ghost ping detector \n **-** Modmail System \n **-** Keyword reactions", inline = False)
+	embed.add_field(name = "Functions", value = "**-** Replys to `imy`, `ily`, `gay` and `ban` \n **-** Ai-chat aka <#869011766066163742> \n **-** Ghost ping detector \n **-** Modmail System \n **-** Keyword reactions", inline = False)
 	embed.add_field(name = "Chad Developer", value = "<@726480855689724105>丨Lord Chaos#3393", inline = False)
 	embed.set_thumbnail(url = guild.me.avatar_url)
 	await ctx.send(embed=embed)
@@ -56,7 +56,7 @@ async def show_help(ctx):
 		color=0x000000)
 	embed.add_field(name = "Miscellaneous Commands", value = " `ping`, `setnick`, `avatar`, `role`, `remindme`", inline = False)
 	embed.add_field(name = "Moderation Commands", value = "`kick`, `ban`", inline = False)
-	embed.add_field(name = "Functions", value = "**-** Replys to `imy`, `ily`, `gay` and `ban` \n **-** Ai-chat aka <#869011766066163742> \n **-** Some stupid loops \n **-** Ghost ping detector \n **-** Modmail System \n **-** Keyword reactions", inline = False)
+	embed.add_field(name = "Functions", value = "**-** Replys to `imy`, `ily`, `gay` and `ban` \n **-** Ai-chat aka <#869011766066163742> \n **-** Ghost ping detector \n **-** Modmail System \n **-** Keyword reactions", inline = False)
 	embed.add_field(name = "Chad Developer", value = "<@726480855689724105>丨Lord Chaos#3393", inline = False)
 	embed.set_thumbnail(url = guild.me.avatar_url)
 	await ctx.send(embed=embed)
@@ -472,24 +472,24 @@ async def on_message_delete(message):
 
 
 
-#LOOPS
-@tasks.loop(seconds = 86400*2)
-async def how_are_you():
-	await asyncio.sleep(86400)
-	this_channel = bot.get_guild(795726142161944637).get_channel(842185255221198858)
-	greetings = ["Whats up nibbe", "Hows it going nibbe?", "How have you been nibbe?", "How are you doing nibbe?", "Check pins",
-	"Whats cooking nibbe?", "Long time no see nibbe...", "Sup nibbe?", "Hey nibbe", "What’s up Ameena", "Whats cooking nibbe?",
-	"Kiya howa?", "Kiya chal raha hay?", "You ok nibbe?", "Idk why im doing this...", "Why am i doing this again...?", "Sigh"]
-	# return await this_channel.send(f"<@723242226855182468> {randchoice(greetings)}")
-	print({randchoice(greetings)})
+# #LOOPS
+# @tasks.loop(seconds = 86400*2)
+# async def how_are_you():
+# 	await asyncio.sleep(86400)
+# 	this_channel = bot.get_guild(795726142161944637).get_channel(842185255221198858)
+# 	greetings = ["Whats up nibbe", "Hows it going nibbe?", "How have you been nibbe?", "How are you doing nibbe?", "Check pins",
+# 	"Whats cooking nibbe?", "Long time no see nibbe...", "Sup nibbe?", "Hey nibbe", "What’s up Ameena", "Whats cooking nibbe?",
+# 	"Kiya howa?", "Kiya chal raha hay?", "You ok nibbe?", "Idk why im doing this...", "Why am i doing this again...?", "Sigh"]
+# 	# return await this_channel.send(f"<@723242226855182468> {randchoice(greetings)}")
+# 	print({randchoice(greetings)})
 
-@tasks.loop(seconds = 86400*2)
-async def playlist():
-	await asyncio.sleep(86400)
-	embed = Embed(description="**[My stupid playlist](spotify:playlist:1eoCjzINYSgvJXDbt6T7kA) \n [Ahh Sad Boy Hours Sigh](spotify:playlist:7Mu7AxSsveFAWtN9kUnOEf) \n [Take this one also cuz why not](spotify:playlist:5ESl8XOwhjt8PD2gHzWMxn) \n Idk why im doing this...**",
-		color=0x000000)
-	# return await this_channel.send(embed=embed)
-	print("2nd loop")
+# @tasks.loop(seconds = 86400*2)
+# async def playlist():
+# 	await asyncio.sleep(86400)
+# 	embed = Embed(description="**[My stupid playlist](spotify:playlist:1eoCjzINYSgvJXDbt6T7kA) \n [Ahh Sad Boy Hours Sigh](spotify:playlist:7Mu7AxSsveFAWtN9kUnOEf) \n [Take this one also cuz why not](spotify:playlist:5ESl8XOwhjt8PD2gHzWMxn) \n Idk why im doing this...**",
+# 		color=0x000000)
+# 	# return await this_channel.send(embed=embed)
+# 	print("2nd loop")
 
 
 
@@ -497,8 +497,8 @@ async def playlist():
 @bot.event
 async def on_ready():
 	config_channel = bot.get_guild(795726142161944637).get_channel(859726638111260692)
-	how_are_you.start()
-	playlist.start()
+	# how_are_you.start()
+	# playlist.start()
 	await bot.change_presence(status = discord.Status.dnd ,activity=discord.Activity(type=discord.ActivityType.watching, name="Emptiness"))
 	await config_channel.send("<:uhh:847601058904932362>")
 	print("Bot is Ready")
