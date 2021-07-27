@@ -302,7 +302,7 @@ async def on_message(message):
 					await message.add_reaction("<:uhh:847601058904932362>")			
 			
 			#RESPONSE EVENTS
-			if message.content == "Ily" or message.content == "ily":
+			if "Ily" in message.content or "ily" in message.content:
 				if message.reference is not None:
 					if message.reference.cached_message is None:
 						channel = bot.get_channel(message.reference.channel_id)
@@ -319,7 +319,7 @@ async def on_message(message):
 					return await message.reply(f" {randchoice(choice)}")
 				
 				else:
-					await message.reply(f"Ily 2 king {emoji}")
+					return await message.reply(f"Ily 2 king {emoji}")
 
 			if "I miss you" in message.content or "i miss you" in message.content or "Imy" in message.content or "imy" in message.content:
 				if message.reference is not None:
@@ -338,10 +338,10 @@ async def on_message(message):
 					return await message.reply(f" {randchoice(choice)}")
 				
 				else:
-					await message.reply(f"Imy 2 king {emoji}")
+					return await message.reply(f"Imy 2 king {emoji}")
 
 			
-			if message.content == "ban" or message.content == "Ban":
+			if "ban" in message.content or "Ban" in message.content:
 				if message.reference is not None:
 					if message.reference.cached_message is None:
 						channel = bot.get_channel(message.reference.channel_id)
@@ -359,14 +359,24 @@ async def on_message(message):
 
 						else:
 							return await message.reply("Ban myself? Aight")
-
+				else:
+					if message.author.id == 723242226855182468:
+						return await message.reply("Ban who nibbe?")
+					
+					else:
+						return await message.reply("Ban who king?")
+			
 			if message.content == "gay" or message.content == "Gay":
 				if message.reference is not None:
 					if message.reference.cached_message is None:
 						channel = bot.get_channel(message.reference.channel_id)
 						msg = await channel.fetch_message(message.reference.message_id)
 						if msg.author != bot.user:
-							return await msg.reply("https://tenor.com/view/why-uganda-are-you-gay-you-gif-12775398")
+							if message.author.id != 726480855689724105 or message.author.id != 862428136166916096:
+								return await msg.reply("https://tenor.com/view/why-uganda-are-you-gay-you-gif-12775398")
+							
+							else:
+								return await message.reply("Chaos is chad")
 						
 						else:
 							return await message.reply("https://tenor.com/view/obama-what-seriously-wtf-gif-12341428")
@@ -374,7 +384,11 @@ async def on_message(message):
 					else:
 						msg = message.reference.cached_message
 						if msg.author != bot.user:
-							return await msg.reply("https://tenor.com/view/why-uganda-are-you-gay-you-gif-12775398")
+							if message.author.id != 726480855689724105 or message.author.id != 862428136166916096:
+								return await msg.reply("https://tenor.com/view/why-uganda-are-you-gay-you-gif-12775398")
+							
+							else:
+								return await message.reply("Chaos is chad")
 
 						else:
 							return await message.reply("https://tenor.com/view/obama-what-seriously-wtf-gif-12341428")
