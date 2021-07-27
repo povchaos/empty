@@ -315,7 +315,8 @@ async def on_message(message):
 							return await message.reply(f"Where is my ily???")
 				
 				if message.author.id == 723242226855182468:# or message.author.id == 726480855689724105:
-					choice = [f"Ily 2 nibbe {emoji}", f"Ily 2 nibbe {emoji}", f"Ily 2 nibbe  {emoji}", f"Ily 2 nibbe  {emoji}", f"Ily 2 nibbe  {emoji}", "ew <:cringe:842192069678334014>", "ew <:cringe:854735604972912640>", "k, no one asked <:faku:847526893842464798>"]
+					choice = [f"Ily 2 nibbe {emoji}", f"Ily 2 nibbe {emoji}", f"Ily 2 nibbe  {emoji}", f"Ily 2 nibbe  {emoji}", f"Ily 2 nibbe  {emoji}", f"Ily 2 nibbe  {emoji}", "ew <:cringe:842192069678334014>", "ew <:cringe:854735604972912640>", "k, no one asked <:faku:847526893842464798>",
+					"but who asked? <:faku:847526893842464798>", "Stap it. Get some help <:cringe:854735604972912640>", "Stap it. Get some help <:cringe:842192069678334014>", "k?"]
 					return await message.reply(f" {randchoice(choice)}")
 				
 				else:
@@ -334,7 +335,8 @@ async def on_message(message):
 							return await message.reply(f"And you dont miss me???")
 				
 				if message.author.id == 723242226855182468:# or message.author.id == 726480855689724105:
-					choice = [f"Ily 2 nibbe {emoji}", f"Imy 2 nibbe {emoji}", f"Imy 2 nibbe  {emoji}", f"Imy 2 nibbe  {emoji}", f"Imy 2 nibbe  {emoji}", "ew <:cringe:842192069678334014>", "ew <:cringe:854735604972912640>", "k, no one asked <:faku:847526893842464798>"]
+					choice = [f"Ily 2 nibbe {emoji}", f"Ily 2 nibbe {emoji}", f"Ily 2 nibbe  {emoji}", f"Ily 2 nibbe  {emoji}", f"Ily 2 nibbe  {emoji}", f"Ily 2 nibbe  {emoji}", "ew <:cringe:842192069678334014>", "ew <:cringe:854735604972912640>", "k, no one asked <:faku:847526893842464798>",
+					"but who asked? <:faku:847526893842464798>", "Stap it. Get some help <:cringe:854735604972912640>", "Stap it. Get some help <:cringe:842192069678334014>", "k?"]
 					return await message.reply(f" {randchoice(choice)}")
 				
 				else:
