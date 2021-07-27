@@ -263,7 +263,7 @@ async def on_message(message):
 		#BOT MENTION EVENT
 		if bot.user.mentioned_in(message) and message.content.startswith("<") and message.content.endswith(">"):
 			choice_69 = ["Try using slash commands aka `/`", "Slash commands || aka  `/` || exist for a reason. Consider using them???", "My prefix is `!` but slash commands || aka `/` || are better, no cap",
-			"Chaos based me on slash commands || aka `/` || for some reason", "`/help` for help", "Need help? Just use slash help command || aka `/help` ||"]
+			"Try replying to someone and say either `gay` or `ban`","Chaos based me on slash commands || aka `/` || for some reason", "`/help` for help", "Need help? Just use slash help command || aka `/help` ||"]
 			await message.reply(f"{randchoice(choice_69)}")
 		
 		
@@ -385,13 +385,10 @@ async def on_message(message):
 		if message.channel.id == 869011766066163742:
 			if "@everyone" not in message.content and "@here" not in message.content:
 				
-				try:
-					async with randomstuff.AsyncClient(api_key="tQeJ9s1ZRUQt") as client:
-						response = await client.get_ai_response(message.content)
-						await message.reply(response.message)
+				async with randomstuff.AsyncClient(api_key="tQeJ9s1ZRUQt") as client:
+					response = await client.get_ai_response(message.content)
+					await message.reply(response.message)
 				
-				except:
-				 	pass
 					
 			else:
 				await message.reply("You really thought that would work? <:yay:867816037079318568>")
