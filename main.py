@@ -295,6 +295,9 @@ async def on_message(message):
 			if "dirtygamer" in message.content or "Dirtygamer" in message.content or "Hashir" in message.content or "hashir" in message.content:
 				await message.add_reaction(f"{emoji}")
 			
+			if "Vusion" in message.content or "vusion" in message.content:
+				await message.add_reaction(" <:sheesh:842440600774246430> ")
+			
 			if message.content == "gay" or message.content == "Gay":
 				if message.author.id == 723242226855182468:
 					return await message.reply("<@478815409177362432> <@569163565160857620>")
