@@ -255,6 +255,9 @@ async def ban(ctx, target: discord.Member, reason = Optional[str] == "No reason 
 @bot.event
 async def on_message(message):
 	if not message.author.bot:
+		if message.channel.id == 826460762695270432:
+			await message.delete(delay=60)
+		
 		choice = ["<:blush:846912330465017886>", "<:uhh:847601058904932362>", "<:hug:846912225431126076>", "<:salute:846442131400556564>", "<:Boznis:851800792926257152>",
 		"<:umm:842192405754806342>", "<:aamna:862291911611777054>", "<:whenlifegetsyou:862326647976624188>", "<:sweat:820756196876615710>"]
 		emoji = randchoice(choice)
@@ -427,17 +430,12 @@ async def on_member_join(member):
 				("ID", f"{member.id}", False),				
 				("Joined on", member.joined_at.strftime("%d/%m/%Y"), True),
 				("Create on", member.created_at.strftime("%d/%m/%Y"), True),
-				("Status", str(member.status).title(), True)]	
+				("Status", str(member.status).title(), True),
+				("Roles Status", f"Do you want me to hand out <@&818950383216623696> role to {member.mention}?** \n **Please react accordingly within `12 hours`** \n __**Roles Status:**__ Pending")]	
 	for name, value, inline in fields:
 		embed.add_field(name=name, value=value, inline=inline)
 
-	await logs_channel.send("@everyone",embed=embed)
-
-	embed_2 = Embed(title="Member Roles",
-		description=f"**Do you want me to hand out <@&818950383216623696> role to {member.mention}?** \n **Please react accordingly within `12 hours`** \n **Authorized Personnel:** <@726480855689724105>, <@723242226855182468>**",
-		color=0x000000)
-
-	this = await logs_channel.send(embed=embed_2)
+	this = await logs_channel.send("@everyone",embed=embed)
 	await this.add_reaction("✅")
 
 	def check(reaction, user):
@@ -448,13 +446,33 @@ async def on_member_join(member):
     
 	except asyncio.TimeoutError:
 		await this.clear_reaction("✅")
-		embed = Embed(description="**Request Expired!**", color=0x000000)
+		embed = Embed(title=f"{member.name} Just joined {member.guild.name}!", 
+						color =0x000000, timestap=datetime.utcnow())
+		embed.set_thumbnail(url=member.avatar_url)
+		fields = [("Name", f"**{member.mention}丨{member.name}#{member.discriminator}**", False),
+					("ID", f"{member.id}", False),				
+					("Joined on", member.joined_at.strftime("%d/%m/%Y"), True),
+					("Create on", member.created_at.strftime("%d/%m/%Y"), True),
+					("Status", str(member.status).title(), True),
+					("Roles Status", f"Session Expired!")]	
+		for name, value, inline in fields:
+			embed.add_field(name=name, value=value, inline=inline)
 		await this.edit(embed=embed)
 
 	else:
 		await this.clear_reaction("✅")
 		await member.add_roles(empty_role)
-		embed = Embed(description="**Added roles successfully!**", color=0x000000)
+		embed = Embed(title=f"{member.name} Just joined {member.guild.name}!", 
+						color =0x000000, timestap=datetime.utcnow())
+		embed.set_thumbnail(url=member.avatar_url)
+		fields = [("Name", f"**{member.mention}丨{member.name}#{member.discriminator}**", False),
+					("ID", f"{member.id}", False),				
+					("Joined on", member.joined_at.strftime("%d/%m/%Y"), True),
+					("Create on", member.created_at.strftime("%d/%m/%Y"), True),
+					("Status", str(member.status).title(), True),
+					("Roles Status", f"Roles Added Successfully!")]	
+		for name, value, inline in fields:
+			embed.add_field(name=name, value=value, inline=inline)
 		await this.edit(embed=embed)
 
 
@@ -516,15 +534,22 @@ async def on_ready():
 	# how_are_you.start()
 	# playlist.start()
 	await bot.change_presence(status = discord.Status.dnd ,activity=discord.Activity(type=discord.ActivityType.watching, name="Emptiness"))
-	await config_channel.send("<:uhh:847601058904932362>")
 	choice = ["`/help` for help!", "Stop getting pissed on me restarting please, get a life", "Just mute this channel bruh", "Sorry i cant help it", "Use `/help` to view all my commands and functions!",
 	"Its very likely that every time i restart, something new has been added! \n Use `/help` to view all the updates!", "Why am i doing this again?", "Uhhh ffs", "Send help please", "No one here to say `ily` to me?",
 	"No one here to say `imy` to me?", "Reply to someone with either `gay` or `ban`, then watch the magic happen...", "Send nudes please \n k thx bye", "But that still doesnt change the fact that quantum mechanics allows particles to be created and destroyed and requires only the presence of suitable interactions carrying sufficient energy. Quantum field theory also stipulates that the interactions can extend over a distance only if there is a particle, or field quantum, to carry the force.",
 	"But that still doesnt change the fact that theory of plate tectonics states that the Earth's solid outer crust, the lithosphere, is separated into plates that move over the asthenosphere, the molten upper portion of the mantle. Oceanic and continental plates come together, spread apart, and interact at boundaries all over the planet.",
 	"Osama bin Mohammed bin Awad bin Laden, aka <@868540085971341362>, March 10, 1957 – May 2, 2011, also rendered as Usama bin Ladin, was a founder of the pan-Islamic militant organization al-Qaeda.He was a Saudi Arabian citizen until 1994 and a member of the wealthy bin Laden family. Bin Laden's father was Mohammed bin Awad bin Laden, a Saudi millionaire from Hadhramaut, Yemen, and the founder of the construction company, Saudi Binladin Group. His mother, Alia Ghanem, was from a secular middle-class family in Latakia, Syria. He was born in Saudi Arabia and studied at university in the country until 1979, when he joined Mujahideen forces in Pakistan fighting against the Soviet Union in Afghanistan. He helped to fund the Mujahideen by funneling arms, money, and fighters from the Arab world into Afghanistan, and gained popularity among many Arabs. In 1988, he formed al-Qaeda. He was banished from Saudi Arabia in 1992, and shifted his base to Sudan, until U.S. pressure forced him to leave Sudan in 1996. After establishing a new base in Afghanistan, he declared a war against the United States, initiating a series of bombings and related attacks. Bin Laden was on the American Federal Bureau of Investigation's (FBI) lists of Ten Most Wanted Fugitives and Most Wanted Chad for his involvement in the 1998 U.S. embassy bombings.",
 	"Im gonna fly some planes into a couple buildings in Manhattan \n I-m I-m <@868540085971341362> \n Run tell Obama \n Im your fucking uncle...", "Are you in the mood for 72 virgins? \n And i dont mean dudes who get your computer working", "Will there ever be Middle East peace? \n Nigga please... \n There will always be one or two jehads *atleast*", "Hey <@868540085971341362> kill Obama bismillah..."]
+	await config_channel.send("<:uhh:847601058904932362>")
 	await config_channel.send(f"{randchoice(choice)}")
+	
+	# gateway = bot.get_guild(795726142161944637).get_channel(826460762695270432)
+	# embed = Embed(description="**Ping either <@726480855689724105> or <@723242226855182468> for roles**", color=0x000000)
+	# embed.set_author(name="Welcome To Empty", icon_url = "https://cdn.discordapp.com/emojis/847601058904932362.png?v=1")
+	# await gateway.send(embed=embed)
+	
 	print("Bot is Ready")
+
 
 with open("./token.json") as f:
 	config = json.load(f)
