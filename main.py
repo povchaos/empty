@@ -253,20 +253,18 @@ async def ban(ctx, target: discord.Member, reason = Optional[str] == "No reason 
 
 #ON MESSAGE EVENT
 @bot.event
-async def on_message(message):
+async def on_message(message):	
 	if not message.author.bot:
 		if message.channel.id == 826460762695270432:
 			await message.delete(delay=60)
-		
-		choice = ["<:blush:846912330465017886>", "<:uhh:847601058904932362>", "<:hug:846912225431126076>", "<:salute:846442131400556564>", "<:Boznis:851800792926257152>",
-		"<:umm:842192405754806342>", "<:aamna:862291911611777054>", "<:whenlifegetsyou:862326647976624188>", "<:sweat:820756196876615710>"]
-		emoji = randchoice(choice)
 
+		for emoji in message.guild.emojis:
+			e = (f"<:{emoji.name}:{emoji.id}>")
 		
 		#BOT MENTION EVENT
 		if bot.user.mentioned_in(message) and message.content.startswith("<") and message.content.endswith(">"):
 			choice_69 = ["Try using slash commands aka `/`", "Slash commands || aka  `/` || exist for a reason. Consider using them???", "My prefix is `!` but slash commands || aka `/` || are better, no cap",
-			"Try replying to someone and say either `gay` or `ban`","Chaos based me on slash commands || aka `/` || for some reason", "`/help` for help", "Need help? Just use slash help command || aka `/help` ||"]
+			"`/help` for help", "Need help? Just use slash help command || aka `/help` ||"]
 			await message.reply(f"{randchoice(choice_69)}")
 		
 		
@@ -287,28 +285,26 @@ async def on_message(message):
 			
 			#REACTION EVENTS
 			if "chaos" in message.content or "Chaos" in  message.content or "ahmed" in  message.content or "Ahmed" in message.content:
-				await message.add_reaction(f"{emoji}")
+				await message.add_reaction(f"{e}")
 			
 			if "aamna" in message.content or "Aamna" in  message.content:
-				await message.add_reaction(f"{emoji}")
+				await message.add_reaction(f"{e}")
 
 			if "hades" in message.content or "Hades" in message.content or "Taha" in message.content or "taha" in message.content:
-				await message.add_reaction(f"{emoji}")
+				await message.add_reaction(f"{e}")
 
 			if "dirtygamer" in message.content or "Dirtygamer" in message.content or "Hashir" in message.content or "hashir" in message.content:
-				await message.add_reaction(f"{emoji}")
+				await message.add_reaction(f"{e}")
 			
 			if "Vusion" in message.content or "vusion" in message.content:
 				await message.add_reaction("<:sheesh:842440600774246430>")
+
 			
-			if message.content == "gay" or message.content == "Gay":
-				if message.author.id == 723242226855182468:
-					return await message.reply("<@478815409177362432> <@569163565160857620>")
-				else:
-					await message.add_reaction("<:uhh:847601058904932362>")			
+		#RESPONSE EVENTS
 			
-			#RESPONSE EVENTS
-			if "Ily" in message.content or "ily" in message.content:
+			
+			#ILY EVENT [Specific]
+			if "Ily" in message.content or "ily" in message.content or "I love you" in message.content or "i love you" in message.content:
 				if message.reference is not None:
 					if message.reference.cached_message is None:
 						channel = bot.get_channel(message.reference.channel_id)
@@ -320,15 +316,39 @@ async def on_message(message):
 						if message.reference.cached_message.author != bot.user:
 							return await message.reply(f"Where is my ily???")
 				
-				if message.author.id == 723242226855182468:# or message.author.id == 726480855689724105:
-					choice = [f"Ily 2 nibbe {emoji}", f"Ily 2 nibbe {emoji}", f"Ily 2 nibbe  {emoji}", f"Ily 2 nibbe  {emoji}", f"Ily 2 nibbe  {emoji}", f"Ily 2 nibbe  {emoji}", "ew <:cringe:842192069678334014>", "ew <:cringe:854735604972912640>", "k, no one asked <:faku:847526893842464798>",
+				if message.author.id == 723242226855182468:
+					choice = [f"Ily 2 nibbe {e}", f"Ily 2 nibbe {e}", f"Ily 2 nibbe  {e}", f"Ily 2 nibbe  {e}", f"Ily 2 nibbe  {e}", f"Ily 2 nibbe  {e}", "ew <:cringe:842192069678334014>", "ew <:cringe:854735604972912640>", "k, no one asked <:faku:847526893842464798>",
 					"but who asked? <:faku:847526893842464798>", "Stap it. Get some help <:cringe:854735604972912640>", "Stap it. Get some help <:cringe:842192069678334014>", "k?"]
 					return await message.reply(f" {randchoice(choice)}")
 				
 				else:
-					return await message.reply(f"Ily 2 king {emoji}")
+					return await message.reply(f"Ily 2 king {e}")
 
-			if "I miss you" in message.content or "i miss you" in message.content or "Imy" in message.content or "imy" in message.content:
+
+			#IHY EVENT [Specific]
+			if "Ihy" in message.content or "ihy" in message.content or "I hate you" in message.content or "i hate you" in message.content:
+				if message.reference is not None:
+					if message.reference.cached_message is None:
+						channel = bot.get_channel(message.reference.channel_id)
+						msg = await channel.fetch_message(message.reference.message_id)
+						if msg.author != bot.user:
+							return await message.reply(f"Spread legs not hate...")					
+					
+					else:
+						if message.reference.cached_message.author != bot.user:
+							return await message.reply(f"Spread legs not hate...")
+				
+				if message.author.id == 723242226855182468:
+					choice = ["k", "k?", "R.u.d.e", "Mean tou na ho", "Kitne mean hoe", "Ajeeb"]
+					return await message.reply(f" {randchoice(choice)}")
+				
+				else:
+					choice = ["k", "k?", "R.u.d.e", "Mean tou na ho", "Kitnay mean ho", "Ajeeb"]
+					return await message.reply(f" {randchoice(choice)}")
+
+			
+			#IMY EVENT [Specific]
+			if message.content == "I miss you" or message.content == "i miss you" or message.content == "Imy" or message.content == "imy":
 				if message.reference is not None:
 					if message.reference.cached_message is None:
 						channel = bot.get_channel(message.reference.channel_id)
@@ -340,16 +360,17 @@ async def on_message(message):
 						if message.reference.cached_message.author != bot.user:
 							return await message.reply(f"And you dont miss me???")
 				
-				if message.author.id == 723242226855182468:# or message.author.id == 726480855689724105:
-					choice = [f"Ily 2 nibbe {emoji}", f"Ily 2 nibbe {emoji}", f"Ily 2 nibbe  {emoji}", f"Ily 2 nibbe  {emoji}", f"Ily 2 nibbe  {emoji}", f"Ily 2 nibbe  {emoji}", "ew <:cringe:842192069678334014>", "ew <:cringe:854735604972912640>", "k, no one asked <:faku:847526893842464798>",
+				if message.author.id == 723242226855182468:
+					choice = [f"Ily 2 nibbe {e}", f"Imy 2 nibbe {e}", f"Imy 2 nibbe {e}", f"Imy 2 nibbe {e}", f"Imy 2 nibbe {e}", f"Imy 2 nibbe {e}", "ew <:cringe:842192069678334014>", "ew <:cringe:854735604972912640>", "k, no one asked <:faku:847526893842464798>",
 					"but who asked? <:faku:847526893842464798>", "Stap it. Get some help <:cringe:854735604972912640>", "Stap it. Get some help <:cringe:842192069678334014>", "k?"]
 					return await message.reply(f" {randchoice(choice)}")
 				
 				else:
-					return await message.reply(f"Imy 2 king {emoji}")
+					return await message.reply(f"Imy 2 king {e}")
 
 			
-			if "ban" in message.content or "Ban" in message.content:
+			#BAN EVENT [Specific]
+			if message.content == "Ban" or message.content == "ban":
 				if message.reference is not None:
 					if message.reference.cached_message is None:
 						channel = bot.get_channel(message.reference.channel_id)
@@ -374,17 +395,19 @@ async def on_message(message):
 					else:
 						return await message.reply("Ban who king?")
 			
-			if message.content == "gay" or message.content == "Gay":
+			
+			#GAY EVENT [Specific]
+			if message.content == "gay" or message.content == "Gay" or message.content == "Gae" or message.content == "gae":
 				if message.reference is not None:
 					if message.reference.cached_message is None:
 						channel = bot.get_channel(message.reference.channel_id)
 						msg = await channel.fetch_message(message.reference.message_id)
 						if msg.author != bot.user:
-							if message.author.id != 726480855689724105 or message.author.id != 862428136166916096:
+							if msg.author.id != 726480855689724105 or msg.author.id != 862428136166916096:
 								return await msg.reply("https://tenor.com/view/why-uganda-are-you-gay-you-gif-12775398")
 							
 							else:
-								return await message.reply("Chaos is chad")
+								return await message.reply("Chaos is chad stfu")
 						
 						else:
 							return await message.reply("https://tenor.com/view/obama-what-seriously-wtf-gif-12341428")
@@ -392,17 +415,23 @@ async def on_message(message):
 					else:
 						msg = message.reference.cached_message
 						if msg.author != bot.user:
-							if message.author.id != 726480855689724105 or message.author.id != 862428136166916096:
+							if msg.author.id != 726480855689724105 or msg.author.id != 862428136166916096:
 								return await msg.reply("https://tenor.com/view/why-uganda-are-you-gay-you-gif-12775398")
 							
 							else:
-								return await message.reply("Chaos is chad")
+								return await message.reply("Chaos is chad stfu")
 
 						else:
 							return await message.reply("https://tenor.com/view/obama-what-seriously-wtf-gif-12341428")
 
-		
+				else:
+					if message.author.id == 723242226855182468:
+						return await message.reply("<@478815409177362432> <@569163565160857620>")
+					
+					else:
+						return await message.reply("<@723242226855182468>")
 
+		
 		#AI CHAT FUNCTION
 		if message.channel.id == 869011766066163742:
 			if "@everyone" not in message.content and "@here" not in message.content:
@@ -540,6 +569,7 @@ async def on_ready():
 	"But that still doesnt change the fact that theory of plate tectonics states that the Earth's solid outer crust, the lithosphere, is separated into plates that move over the asthenosphere, the molten upper portion of the mantle. Oceanic and continental plates come together, spread apart, and interact at boundaries all over the planet.",
 	"Osama bin Mohammed bin Awad bin Laden, aka <@868540085971341362>, March 10, 1957 – May 2, 2011, also rendered as Usama bin Ladin, was a founder of the pan-Islamic militant organization al-Qaeda.He was a Saudi Arabian citizen until 1994 and a member of the wealthy bin Laden family. Bin Laden's father was Mohammed bin Awad bin Laden, a Saudi millionaire from Hadhramaut, Yemen, and the founder of the construction company, Saudi Binladin Group. His mother, Alia Ghanem, was from a secular middle-class family in Latakia, Syria. He was born in Saudi Arabia and studied at university in the country until 1979, when he joined Mujahideen forces in Pakistan fighting against the Soviet Union in Afghanistan. He helped to fund the Mujahideen by funneling arms, money, and fighters from the Arab world into Afghanistan, and gained popularity among many Arabs. In 1988, he formed al-Qaeda. He was banished from Saudi Arabia in 1992, and shifted his base to Sudan, until U.S. pressure forced him to leave Sudan in 1996. After establishing a new base in Afghanistan, he declared a war against the United States, initiating a series of bombings and related attacks. Bin Laden was on the American Federal Bureau of Investigation's (FBI) lists of Ten Most Wanted Fugitives and Most Wanted Chad for his involvement in the 1998 U.S. embassy bombings.",
 	"Im gonna fly some planes into a couple buildings in Manhattan \n I-m I-m <@868540085971341362> \n Run tell Obama \n Im your fucking uncle...", "Are you in the mood for 72 virgins? \n And i dont mean dudes who get your computer working", "Will there ever be Middle East peace? \n Nigga please... \n There will always be one or two jehads *atleast*", "Hey <@868540085971341362> kill Obama bismillah..."]
+	
 	await config_channel.send("<:uhh:847601058904932362>")
 	await config_channel.send(f"{randchoice(choice)}")
 	
