@@ -15,6 +15,7 @@ intents = discord.Intents.all()
 bot = commands.Bot(command_prefix="!", intents=intents)
 slash = SlashCommand(bot, sync_commands=True)
 bot.remove_command("help")
+embed_color = 0x588642
 
 def convert(time):
 		pos = ["s","m","h","d"]
@@ -37,11 +38,11 @@ def convert(time):
 async def show_help(ctx):
 	guild = ctx.guild
 	embed = Embed(title="Help",
-		description=f"I have a total of **{len(bot.commands)}** commands",
-		color=0x000000)
+		description=f"I have a total of **{len(bot.commands)}** commands \n My current prefix is **{ctx.prefix}**",
+		color=embed_color)
 	embed.add_field(name = "Miscellaneous Commands", value = " `ping`, `setnick`, `avatar`, `role`, `remindme`", inline = False)
 	embed.add_field(name = "Moderation Commands", value = "`kick`, `ban`", inline = False)
-	embed.add_field(name = "Functions", value = "**・**Replys differently to `imy`, `ily`, `ihy`, `gay` and `ban` depending on the situation` \n **・** Ai-chat aka <#869011766066163742> \n **・** Ghost ping detector \n **・** Modmail System \n **・** Keyword reactions", inline = False)
+	embed.add_field(name = "Functions", value = "**・**Replys to `imy`, `ily`, `ihy`, `gay` and `ban` \n **・** Ai-chat aka <#869011766066163742> \n **・** Ghost ping detector \n **・** Modmail system \n **・** Keyword reactions", inline = False)
 	embed.add_field(name = "Chad Developer", value = "<@726480855689724105>丨Lord Chaos#3393", inline = False)
 	embed.set_thumbnail(url = guild.me.avatar_url)
 	await ctx.channel.send(embed=embed)
@@ -52,16 +53,16 @@ async def roles(ctx, target: discord.Member, role: discord.Role):
 	try:	
 		if role not in target.roles:
 			await target.add_roles(role)
-			embed = Embed(description=f"Added **{role.mention}** to **{target.mention}**", color=0x000000)
+			embed = Embed(description=f"Added **{role.mention}** to **{target.mention}**", color=embed_color)
 			await ctx.channel.send(embed=embed)
 
 		else:
 			await target.remove_roles(role)
-			embed = Embed(description=f"Removed **{role.mention}** from **{target.mention}**",  color=0x000000)
+			embed = Embed(description=f"Removed **{role.mention}** from **{target.mention}**",  color=embed_color)
 			await ctx.channel.send(embed=embed)
 	
 	except Forbidden:
-		embed = Embed(description=f"You cannot edit roles for {target.mention}", color=0x000000)
+		embed = Embed(description=f"You cannot edit roles for {target.mention}", color=embed_color)
 		await ctx.channel.send(embed=embed)
 
 #SAY COMMAND
@@ -72,7 +73,7 @@ async def say(ctx, message):
 #EMBED COMMAND
 @bot.command(name="embed")
 async def embed(ctx, message):
-	embed = Embed(description = f"{message}", color = 0x000000)
+	embed = Embed(description = f"{message}", color = embed_color)
 	await ctx.channel.send(embed=embed)
 
 #SETNICK COMMAND
@@ -80,7 +81,7 @@ async def embed(ctx, message):
 async def set_nick(ctx, target: discord.Member, nickname):
 	try:
 		await target.edit(nick=nickname)
-		embed = Embed(description=f"Changed **{target.name}#{target.discriminator}**'s name to **{nickname}**", color=0x000000)
+		embed = Embed(description=f"Changed **{target.name}#{target.discriminator}**'s name to **{nickname}**", color=embed_color)
 		await ctx.channel.send(embed=embed)
 	except Forbidden:
 		await ctx.channel.send(f"I cant change **{target.name}#{target.discriminator}**'s name")
@@ -102,7 +103,7 @@ async def remindme(ctx, time, *, message):
 
 		embed = Embed(title="Reminder",
 			description=f"{message}",
-			color=0x000000)
+			color=embed_color)
 		try:
 			await ctx.author.send(embed=embed)
 		
@@ -116,28 +117,28 @@ async def remindme(ctx, time, *, message):
 @bot.command(name="avatar",description="User avatar")
 async def avatar(ctx, target: Optional[discord.Member]):
 	target = target or ctx.author
-	embed = Embed(title=f"{target.display_name}'s Avatar",url=f"{target.avatar_url}",color=0x000000)
+	embed = Embed(title=f"{target.display_name}'s Avatar",url=f"{target.avatar_url}",color=embed_color)
 	embed.set_image(url=f"{target.avatar_url}")
 	await ctx.channel.send(embed = embed)
 
 #PING COMMAND
 @bot.command(name="ping", description="Bot Latency")
 async def ping(ctx):
-	embed = Embed(description=f"Pong! Latency is **{round(bot.latency*1000)}** ms",color=0x000000)
+	embed = Embed(description=f"Pong! Latency is **{round(bot.latency*1000)}** ms",color=embed_color)
 	await ctx.channel.send(embed=embed)
 
 #KICK COMMAND
 @bot.command(name="kick", description="Kick Users")
 async def kick(ctx, target: discord.Member, reason = Optional[str] == "No reason provided"):
 	await target.kick(reason = reason)
-	embed = Embed(description=f"Successfully kicked **{target.name}#{target.discriminator}**", color=0x000000)
+	embed = Embed(description=f"Successfully kicked **{target.name}#{target.discriminator}**", color=embed_color)
 	await ctx.channel.send(embed=embed)
 
 #BAN COMMAND
 @bot.command(name="ban", description="Ban Users")
 async def ban(ctx, target: discord.Member, reason = Optional[str] == "No reason provided"):
 	await target.ban(reason = reason)
-	embed = Embed(description=f"Successfully banned **{target.name}#{target.discriminator}**", color=0x000000)
+	embed = Embed(description=f"Successfully banned **{target.name}#{target.discriminator}**", color=embed_color)
 	await ctx.channel.send(embed=embed)
 
 
@@ -151,8 +152,8 @@ async def ban(ctx, target: discord.Member, reason = Optional[str] == "No reason 
 async def show_help(ctx):
 	guild = ctx.guild
 	embed = Embed(title="Help",
-		description=f"I have a total of **{len(bot.commands)}** commands",
-		color=0x000000)
+		description=f"I have a total of **{len(bot.commands)}** commands \n My current prefix is **{ctx.prefix}**",
+		color=embed_color)
 	embed.add_field(name = "Miscellaneous Commands", value = " `ping`, `setnick`, `avatar`, `role`, `remindme`", inline = False)
 	embed.add_field(name = "Moderation Commands", value = "`kick`, `ban`", inline = False)
 	embed.add_field(name = "Functions", value = "**・**Replys differently to `imy`, `ily`, `ihy`, `gay` and `ban` depending on the situation` \n **・** Ai-chat aka <#869011766066163742> \n **・** Ghost ping detector \n **・** Modmail System \n **・** Keyword reactions", inline = False)
@@ -166,16 +167,16 @@ async def roles(ctx, target: discord.Member, role: discord.Role):
 	try:	
 		if role not in target.roles:
 			await target.add_roles(role)
-			embed = Embed(description=f"Added **{role.mention}** to **{target.mention}**", color=0x000000)
+			embed = Embed(description=f"Added **{role.mention}** to **{target.mention}**", color=embed_color)
 			await ctx.send(embed=embed)
 
 		else:
 			await target.remove_roles(role)
-			embed = Embed(description=f"Removed **{role.mention}** from **{target.mention}**",  color=0x000000)
+			embed = Embed(description=f"Removed **{role.mention}** from **{target.mention}**",  color=embed_color)
 			await ctx.send(embed=embed)
 	
 	except Forbidden:
-		embed = Embed(description=f"You cannot edit roles for {target.mention}", color=0x000000)
+		embed = Embed(description=f"You cannot edit roles for {target.mention}", color=embed_color)
 		await ctx.send(embed=embed)
 
 #SET NICK COMMAND [Slash]
@@ -183,7 +184,7 @@ async def roles(ctx, target: discord.Member, role: discord.Role):
 async def set_nick(ctx, target: discord.Member, nickname):
 	try:
 		await target.edit(nick=nickname)
-		embed = Embed(description=f"Changed **{target.name}#{target.discriminator}**'s name to **{nickname}**", color=0x000000)
+		embed = Embed(description=f"Changed **{target.name}#{target.discriminator}**'s name to **{nickname}**", color=embed_color)
 		await ctx.send(embed=embed)
 	except Forbidden:
 		await ctx.send(f"I cant change **{target.name}#{target.discriminator}**'s name")
@@ -205,7 +206,7 @@ async def remindme(ctx, time, *, message):
 
 		embed = Embed(title="Reminder",
 			description=f"{message}",
-			color=0x000000)
+			color=embed_color)
 		try:
 			await ctx.author.send(embed=embed)
 		
@@ -219,28 +220,28 @@ async def remindme(ctx, time, *, message):
 @slash.slash(name="avatar",description="User avatar")
 async def avatar(ctx, target: Optional[discord.Member]):
 	target = target or ctx.author
-	embed = Embed(title=f"{target.display_name}'s Avatar",url=f"{target.avatar_url}",color=0x000000)
+	embed = Embed(title=f"{target.display_name}'s Avatar",url=f"{target.avatar_url}",color=embed_color)
 	embed.set_image(url=f"{target.avatar_url}")
 	await ctx.send(embed = embed)
 
 #PING COMMAND [Slash]
 @slash.slash(name="ping", description="Bot Latency")
 async def ping(ctx):
-	embed = Embed(description=f"Pong! Latency is **{round(bot.latency*1000)}** ms",color=0x000000)
+	embed = Embed(description=f"Pong! Latency is **{round(bot.latency*1000)}** ms",color=embed_color)
 	await ctx.send(embed=embed)
 
 #KICK COMMAND [Slash]
 @slash.slash(name="kick", description="Kick Users")
 async def kick(ctx, target: discord.Member, reason = Optional[str] == "No reason provided"):
 	await target.kick(reason = reason)
-	embed = Embed(description=f"Successfully kicked **{target.name}#{target.discriminator}**", color=0x000000)
+	embed = Embed(description=f"Successfully kicked **{target.name}#{target.discriminator}**", color=embed_color)
 	await ctx.send(embed=embed)
 
 #BAN COMMAND [Slash]
 @slash.slash(name="ban", description="Ban Users")
 async def ban(ctx, target: discord.Member, reason = Optional[str] == "No reason provided"):
 	await target.ban(reason = reason)
-	embed = Embed(description=f"Successfully banned **{target.name}#{target.discriminator}**", color=0x000000)
+	embed = Embed(description=f"Successfully banned **{target.name}#{target.discriminator}**", color=embed_color)
 	await ctx.send(embed=embed)
 
 
@@ -252,212 +253,215 @@ async def ban(ctx, target: discord.Member, reason = Optional[str] == "No reason 
 #ON MESSAGE EVENT
 @bot.event
 async def on_message(message):	
-	if not message.author.bot:
-		options = ["<:yay:867816037079318568>", "<:whenlifegetsyou:862326647976624188>", "<:weird:820756635609464832>", "<:uwu:864433286993149962>", "<:umm:842192405754806342>",
-		"<:uhh:847601058904932362>", "<:think:847799821096189953>", "<:tears:846841174010363966>", "<:sneer:820757567960776715>", "<:shutupgay:820756688424140851>",
-		"<:shut:820756805809340457>", "<:shreklook:867815784997716039>", "<:sheesh:842440600774246430>", "<:salute:846442131400556564>", "<:sad:847799874698084362>",
-		"<:pleading:848260381436936212>", "<:ping:823857027314483201>", "<:paink:847800523519164457>", "<:oknooneasked:847800595188416522>", "<:notstonks:820756458928209940>",
-		"<:nigga:855224644201087016>", "<:lmao:847799547475263490>", "<:lmao_2:847799640967217152>", "<:sweat_1:820756196876615710>", "<:lipbite:842440703598395464>", "<:laugh:847778083888955393>",
-		"<:king:820757205703589938>", "<:hug:846912225431126076>", "<:hmm:867836166044778496>", "<:hehe:842192741986467841>", "<:grr:846443331738796105>", "<:faku:847526893842464798>",
-		"<:dorime:847800082589286410>", "<:cry_1:820756773585551410>", "<:cringe:842192069678334014>", "<:cringe_1:854735604972912640>", "<:cool_1:820757300720828536>",
-		"<:chuko:867684163674046484>", "<:chapal:847799929909149696>", "<:chad:847799756495388702>", "<:cap:847562740339310663>", "<:bruh:854678522412924928>", "<:Boznis:851800792926257152>",
-		"<:blush_1:820757757187588137>", "<:suit_blush:846912330465017886>", "<:binladen:842192274721210408>", "<:alright:820757595173552128>", "<:aamna:862291911611777054>"]
-		e = (f"{randchoice(options)}")
+	options = ["<:yay:867816037079318568>", "<:whenlifegetsyou:862326647976624188>", "<:weird:820756635609464832>", "<:uwu:864433286993149962>", "<:umm:842192405754806342>",
+	"<:uhh:847601058904932362>", "<:think:847799821096189953>", "<:tears:846841174010363966>", "<:sneer:820757567960776715>", "<:shutupgay:820756688424140851>",
+	"<:shut:820756805809340457>", "<:shreklook:867815784997716039>", "<:sheesh:842440600774246430>", "<:salute:846442131400556564>", "<:sad:847799874698084362>",
+	"<:pleading:848260381436936212>", "<:ping:823857027314483201>", "<:paink:847800523519164457>", "<:oknooneasked:847800595188416522>", "<:notstonks:820756458928209940>",
+	"<:nigga:855224644201087016>", "<:lmao:847799547475263490>", "<:lmao_2:847799640967217152>", "<:sweat_1:820756196876615710>", "<:lipbite:842440703598395464>", "<:laugh:847778083888955393>",
+	"<:king:820757205703589938>", "<:hug:846912225431126076>", "<:hmm:867836166044778496>", "<:hehe:842192741986467841>", "<:grr:846443331738796105>", "<:faku:847526893842464798>",
+	"<:dorime:847800082589286410>", "<:cry_1:820756773585551410>", "<:cringe:842192069678334014>", "<:cringe_1:854735604972912640>", "<:cool_1:820757300720828536>",
+	"<:chuko:867684163674046484>", "<:chapal:847799929909149696>", "<:chad:847799756495388702>", "<:cap:847562740339310663>", "<:bruh:854678522412924928>", "<:Boznis:851800792926257152>",
+	"<:blush_1:820757757187588137>", "<:suit_blush:846912330465017886>", "<:binladen:842192274721210408>", "<:alright:820757595173552128>", "<:aamna:862291911611777054>"]
+	e = (f"{randchoice(options)}")
 
-		if message.channel.id == 826460762695270432:
-			await message.delete(delay=60)
+	if message.channel.id == 826460762695270432:
+		await message.delete(delay=60)
 
-		#BOT MENTION EVENT
-		if bot.user.mentioned_in(message) and message.content.startswith("<") and message.content.endswith(">"):
+	#BOT MENTION EVENT
+	if bot.user.mentioned_in(message) and message.content.startswith("<") and message.content.endswith(">"):
+		if not message.author.bot:
 			choice_69 = ["Try using slash commands aka `/`", "Slash commands || aka  `/` || exist for a reason. Consider using them???", "My prefix is `!` but slash commands || aka `/` || are better, no cap",
 			"`/help` for help", "Need help? Just use slash help command || aka `/help` ||"]
 			await message.reply(f"{randchoice(choice_69)}")
 		
 		
-		#BOT DMS EVENT
-		if isinstance(message.channel, DMChannel):
+	#BOT DMS EVENT
+	if isinstance(message.channel, DMChannel):
+		if not message.author.bot:
 			logs_channel = bot.get_guild(795726142161944637).get_channel(868251065546584124)
 			embed = Embed(title="DM Received",
 				description=f"**Message By:** \n {message.author.mention}丨{message.author.name}#{message.author.discriminator} \n\n **Message:** \n {message.content}",
-				color=0x000000,
+				color=embed_color,
 				timestamp=datetime.utcnow())
 			embed.set_thumbnail(url = f"{message.author.avatar_url}")
 			await logs_channel.send(embed=embed)
 			await message.add_reaction("✅")
 
 		
-		#KEYWORD EVENTS
-		if not message.author.bot:
-			
-			#REACTION EVENTS
-			if "chaos" in message.content or "Chaos" in  message.content or "ahmed" in  message.content or "Ahmed" in message.content:
-				await message.add_reaction(f"{e}")
-			
-			if "aamna" in message.content or "Aamna" in  message.content:
-				await message.add_reaction(f"{e}")
+	#KEYWORD EVENTS
+	if not message.author.bot:
+		
+		#REACTION EVENTS
+		if "chaos" in message.content or "Chaos" in  message.content or "ahmed" in  message.content or "Ahmed" in message.content:
+			await message.add_reaction(f"{e}")
+		
+		if "aamna" in message.content or "Aamna" in  message.content:
+			await message.add_reaction(f"{e}")
 
-			if "hades" in message.content or "Hades" in message.content or "Taha" in message.content or "taha" in message.content:
-				await message.add_reaction(f"{e}")
+		if "hades" in message.content or "Hades" in message.content or "Taha" in message.content or "taha" in message.content:
+			await message.add_reaction(f"{e}")
 
-			if "dirtygamer" in message.content or "Dirtygamer" in message.content or "Hashir" in message.content or "hashir" in message.content:
-				await message.add_reaction(f"{e}")
-			
-			if "Vusion" in message.content or "vusion" in message.content:
-				await message.add_reaction(f"{e}")
+		if "dirtygamer" in message.content or "Dirtygamer" in message.content or "Hashir" in message.content or "hashir" in message.content:
+			await message.add_reaction(f"{e}")
+		
+		if "Vusion" in message.content or "vusion" in message.content:
+			await message.add_reaction(f"{e}")
 
 			
-		#RESPONSE EVENTS
-			
-			if "726480855689724105" in message.content or "862428136166916096" in message.content:
-				options = ["Yeah hes dead...", "Hes more dead than alive...", "He's gone to get milk...", "He'll be back soon... I hope so", "That user is MIA...",
-				"He's dead bhai...", "Hes dead, find peace dude...", "That user is afk... Since 69 years", "Last online 10 years ago...", "Last online 69 years ago...", "Last online 420 years ago...",
-				"Stop it he's already dead...", "He went to get milk...", "That user is KIA..."]
-				options_2 = ["<:yay:867816037079318568>", "<:whenlifegetsyou:862326647976624188>", "<:weird:820756635609464832>", "<:umm:842192405754806342>",
-				"<:uhh:847601058904932362>", "<:think:847799821096189953>", "<:tears:846841174010363966>", "<:sneer:820757567960776715>", "<:sheesh:842440600774246430>",
-				"<:salute:846442131400556564>", "<:sad:847799874698084362>", "<:ping:823857027314483201>", "<:paink:847800523519164457>", "<:notstonks:820756458928209940>", "<:sweat_1:820756196876615710>", "<:king:820757205703589938>","<:hmm:867836166044778496>", "<:cry_1:820756773585551410>", "<:chad:847799756495388702>", "<:bruh:854678522412924928>", "<:aamna:862291911611777054>"]
-				return await message.reply(f"{randchoice(options_2)} {randchoice(options)}")
-			
+		#MY PING EVENT	
+		if "726480855689724105" in message.content or "862428136166916096" in message.content:
+			options = ["Yeah hes dead...", "Hes more dead than alive...", "He's gone to get milk...", "He'll be back soon... I hope so", "That user is MIA...",
+			"He's dead bhai...", "Hes dead, find peace dude...", "That user is afk... Since 69 years", "Last online 10 years ago...", "Last online 69 years ago...", "Last online 420 years ago...",
+			"Stop it he's already dead...", "He went to get milk...", "That user is KIA..."]
+			options_2 = ["<:yay:867816037079318568>", "<:whenlifegetsyou:862326647976624188>", "<:weird:820756635609464832>", "<:umm:842192405754806342>",
+			"<:uhh:847601058904932362>", "<:think:847799821096189953>", "<:tears:846841174010363966>", "<:sneer:820757567960776715>", "<:sheesh:842440600774246430>",
+			"<:salute:846442131400556564>", "<:sad:847799874698084362>", "<:ping:823857027314483201>", "<:paink:847800523519164457>", "<:notstonks:820756458928209940>", "<:sweat_1:820756196876615710>", "<:king:820757205703589938>","<:hmm:867836166044778496>", "<:cry_1:820756773585551410>", "<:chad:847799756495388702>", "<:bruh:854678522412924928>", "<:aamna:862291911611777054>"]
+			return await message.reply(f"{randchoice(options_2)} {randchoice(options)}")
+		
 
-			#ILY EVENT [Specific]
-			if "Ily" in message.content or "ily" in message.content or "I love you" in message.content or "i love you" in message.content:
-				if message.reference is not None:
-					if message.reference.cached_message is None:
-						channel = bot.get_channel(message.reference.channel_id)
-						msg = await channel.fetch_message(message.reference.message_id)
-						if msg.author != bot.user:
-							return await message.reply(f"Where is my ily???")					
-					
-					else:
-						if message.reference.cached_message.author != bot.user:
-							return await message.reply(f"Where is my ily???")
-				
-				if message.author.id == 723242226855182468:
-					choice = [f"Ily 2 nibbe {e}", f"Ily 2 nibbe {e}", f"Ily 2 nibbe  {e}", f"Ily 2 nibbe  {e}", f"Ily 2 nibbe  {e}", f"Ily 2 nibbe  {e}", "ew <:cringe:842192069678334014>", "ew <:cringe:854735604972912640>", "k, no one asked <:faku:847526893842464798>",
-					"but who asked? <:faku:847526893842464798>", "Stap it. Get some help <:cringe:854735604972912640>", "Stap it. Get some help <:cringe:842192069678334014>", "k?"]
-					return await message.reply(f" {randchoice(choice)}")
+		#ILY EVENT [Specific]
+		if "Ily" in message.content or "ily" in message.content or "I love you" in message.content or "i love you" in message.content:
+			if message.reference is not None:
+				if message.reference.cached_message is None:
+					channel = bot.get_channel(message.reference.channel_id)
+					msg = await channel.fetch_message(message.reference.message_id)
+					if msg.author != bot.user:
+						return await message.reply(f"Where is my ily???")					
 				
 				else:
-					return await message.reply(f"Ily 2 king {e}")
-
-
-			#IHY EVENT [Specific]
-			if "Ihy" in message.content or "ihy" in message.content or "I hate you" in message.content or "i hate you" in message.content:
-				if message.reference is not None:
-					if message.reference.cached_message is None:
-						channel = bot.get_channel(message.reference.channel_id)
-						msg = await channel.fetch_message(message.reference.message_id)
-						if msg.author != bot.user:
-							return await message.reply(f"Spread legs not hate...")					
-					
-					else:
-						if message.reference.cached_message.author != bot.user:
-							return await message.reply(f"Spread legs not hate...")
-				
-				if message.author.id == 723242226855182468:
-					choice = ["k", "k?", "Rude", "Mean tou na ho", "Kitne mean ho", "Ajeeb", "Meanie", "Ihy 2", "Sigh", "Stupid ass", "Ok shorty", "Ok fatty"]
-					return await message.reply(f" {randchoice(choice)}")
-				
-				else:
-					choice = ["k", "k?", "Rude", "Mean tou na ho", "Kitnay mean ho", "Ajeeb", "Meanie", "Ihy 2", "Sigh"]
-					return await message.reply(f" {randchoice(choice)}")
-
+					if message.reference.cached_message.author != bot.user:
+						return await message.reply(f"Where is my ily???")
 			
-			#IMY EVENT [Specific]
-			if message.content == "I miss you" or message.content == "i miss you" or message.content == "Imy" or message.content == "imy":
-				if message.reference is not None:
-					if message.reference.cached_message is None:
-						channel = bot.get_channel(message.reference.channel_id)
-						msg = await channel.fetch_message(message.reference.message_id)
-						if msg.author != bot.user:
-							return await message.reply(f"And you dont miss me???")					
-					
-					else:
-						if message.reference.cached_message.author != bot.user:
-							return await message.reply(f"And you dont miss me???")
-				
-				if message.author.id == 723242226855182468:
-					choice = [f"Ily 2 nibbe {e}", f"Imy 2 nibbe {e}", f"Imy 2 nibbe {e}", f"Imy 2 nibbe {e}", f"Imy 2 nibbe {e}", f"Imy 2 nibbe {e}", "ew <:cringe:842192069678334014>", "ew <:cringe:854735604972912640>", "k, no one asked <:faku:847526893842464798>",
-					"but who asked? <:faku:847526893842464798>", "Stap it. Get some help <:cringe:854735604972912640>", "Stap it. Get some help <:cringe:842192069678334014>", "k?"]
-					return await message.reply(f" {randchoice(choice)}")
+			if message.author.id == 723242226855182468:
+				choice = [f"Ily 2 nibbe {e}", f"Ily 2 nibbe {e}", f"Ily 2 nibbe  {e}", f"Ily 2 nibbe  {e}", f"Ily 2 nibbe  {e}", f"Ily 2 nibbe  {e}", "ew <:cringe:842192069678334014>", "ew <:cringe:854735604972912640>", "k, no one asked <:faku:847526893842464798>",
+				"but who asked? <:faku:847526893842464798>", "Stap it. Get some help <:cringe:854735604972912640>", "Stap it. Get some help <:cringe:842192069678334014>", "k?"]
+				return await message.reply(f" {randchoice(choice)}")
+			
+			else:
+				return await message.reply(f"Ily 2 king {e}")
+
+
+		#IHY EVENT [Specific]
+		if "Ihy" in message.content or "ihy" in message.content or "I hate you" in message.content or "i hate you" in message.content:
+			if message.reference is not None:
+				if message.reference.cached_message is None:
+					channel = bot.get_channel(message.reference.channel_id)
+					msg = await channel.fetch_message(message.reference.message_id)
+					if msg.author != bot.user:
+						return await message.reply(f"Spread legs not hate...")					
 				
 				else:
-					return await message.reply(f"Imy 2 king {e}")
-
+					if message.reference.cached_message.author != bot.user:
+						return await message.reply(f"Spread legs not hate...")
 			
-			#BAN EVENT [Specific]
-			if message.content == "Ban" or message.content == "ban":
-				if message.reference is not None:
-					if message.reference.cached_message is None:
-						channel = bot.get_channel(message.reference.channel_id)
-						msg = await channel.fetch_message(message.reference.message_id)
-						if msg.author != bot.user:
-							return await msg.reply(f"Ayo dont make me ban you")
-						
-						else:
-							return await message.reply("Ban myself? Aight")
-
-					else:
-						msg = message.reference.cached_message
-						if msg.author != bot.user:
-							return await msg.reply(f"Ayo dont make me ban you")
-
-						else:
-							return await message.reply("Ban myself? Aight")
-				else:
-					if message.author.id == 723242226855182468:
-						return await message.reply("Ban who nibbe?")
-					
-					else:
-						return await message.reply("Ban who nibba?")
+			if message.author.id == 723242226855182468:
+				choice = ["k", "k?", "Rude", "Mean tou na ho", "Kitne mean ho", "Ajeeb", "Meanie", "Ihy 2", "Sigh", "Stupid ass", "Ok shorty", "Ok fatty"]
+				return await message.reply(f" {randchoice(choice)}")
 			
-			
-			#GAY EVENT [Specific]
-			if message.content == "gay" or message.content == "Gay" or message.content == "Gae" or message.content == "gae":
-				if message.reference is not None:
-					if message.reference.cached_message is None:
-						channel = bot.get_channel(message.reference.channel_id)
-						msg = await channel.fetch_message(message.reference.message_id)
-						if msg.author != bot.user:
-							if msg.author.id == 726480855689724105 or msg.author.id == 862428136166916096:
-								return await message.reply("Chaos is chad stfu")
-							
-							else:
-								return await msg.reply("https://tenor.com/view/why-uganda-are-you-gay-you-gif-12775398")
-								
-						else:
-							return await message.reply("https://tenor.com/view/obama-what-seriously-wtf-gif-12341428")
-
-					else:
-						msg = message.reference.cached_message
-						if msg.author != bot.user:
-							if msg.author.id == 726480855689724105 or msg.author.id == 862428136166916096:
-								return await message.reply("Chaos is chad stfu")
-
-							else:
-								return await msg.reply("https://tenor.com/view/why-uganda-are-you-gay-you-gif-12775398")
-								
-						else:
-							return await message.reply("https://tenor.com/view/obama-what-seriously-wtf-gif-12341428")
-
-				else:
-					if message.author.id == 723242226855182468:
-						return await message.reply("<@478815409177362432> <@569163565160857620> U 2")
-					
-					else:
-						return await message.reply("<@723242226855182468> U")
+			else:
+				choice = ["k", "k?", "Rude", "Mean tou na ho", "Kitnay mean ho", "Ajeeb", "Meanie", "Ihy 2", "Sigh"]
+				return await message.reply(f" {randchoice(choice)}")
 
 		
-		#AI CHAT FUNCTION
-		if message.channel.id == 869011766066163742:
-			if "@everyone" not in message.content and "@here" not in message.content:
+		#IMY EVENT [Specific]
+		if message.content == "I miss you" or message.content == "i miss you" or message.content == "Imy" or message.content == "imy":
+			if message.reference is not None:
+				if message.reference.cached_message is None:
+					channel = bot.get_channel(message.reference.channel_id)
+					msg = await channel.fetch_message(message.reference.message_id)
+					if msg.author != bot.user:
+						return await message.reply(f"And you dont miss me???")					
 				
-				async with randomstuff.AsyncClient(api_key="tQeJ9s1ZRUQt") as client:
-					response = await client.get_ai_response(message.content)
-					await message.reply(response.message)
-				
-					
+				else:
+					if message.reference.cached_message.author != bot.user:
+						return await message.reply(f"And you dont miss me???")
+			
+			if message.author.id == 723242226855182468:
+				choice = [f"Ily 2 nibbe {e}", f"Imy 2 nibbe {e}", f"Imy 2 nibbe {e}", f"Imy 2 nibbe {e}", f"Imy 2 nibbe {e}", f"Imy 2 nibbe {e}", "ew <:cringe:842192069678334014>", "ew <:cringe:854735604972912640>", "k, no one asked <:faku:847526893842464798>",
+				"but who asked? <:faku:847526893842464798>", "Stap it. Get some help <:cringe:854735604972912640>", "Stap it. Get some help <:cringe:842192069678334014>", "k?"]
+				return await message.reply(f" {randchoice(choice)}")
+			
 			else:
-				await message.reply("You really thought that would work? <:yay:867816037079318568>")
+				return await message.reply(f"Imy 2 king {e}")
+
+		
+		#BAN EVENT [Specific]
+		if message.content == "Ban" or message.content == "ban":
+			if message.reference is not None:
+				if message.reference.cached_message is None:
+					channel = bot.get_channel(message.reference.channel_id)
+					msg = await channel.fetch_message(message.reference.message_id)
+					if msg.author != bot.user:
+						return await msg.reply(f"Ayo dont make me ban you")
+					
+					else:
+						return await message.reply("Ban myself? Aight")
+
+				else:
+					msg = message.reference.cached_message
+					if msg.author != bot.user:
+						return await msg.reply(f"Ayo dont make me ban you")
+
+					else:
+						return await message.reply("Ban myself? Aight")
+			else:
+				if message.author.id == 723242226855182468:
+					return await message.reply("Ban who nibbe?")
+				
+				else:
+					return await message.reply("Ban who nibba?")
+		
+		
+		#GAY EVENT [Specific]
+		if message.content == "gay" or message.content == "Gay" or message.content == "Gae" or message.content == "gae":
+			if message.reference is not None:
+				if message.reference.cached_message is None:
+					channel = bot.get_channel(message.reference.channel_id)
+					msg = await channel.fetch_message(message.reference.message_id)
+					if msg.author != bot.user:
+						if msg.author.id == 726480855689724105 or msg.author.id == 862428136166916096:
+							return await message.reply("Chaos is chad stfu")
+						
+						else:
+							return await msg.reply("https://tenor.com/view/why-uganda-are-you-gay-you-gif-12775398")
+							
+					else:
+						return await message.reply("https://tenor.com/view/obama-what-seriously-wtf-gif-12341428")
+
+				else:
+					msg = message.reference.cached_message
+					if msg.author != bot.user:
+						if msg.author.id == 726480855689724105 or msg.author.id == 862428136166916096:
+							return await message.reply("Chaos is chad stfu")
+
+						else:
+							return await msg.reply("https://tenor.com/view/why-uganda-are-you-gay-you-gif-12775398")
+							
+					else:
+						return await message.reply("https://tenor.com/view/obama-what-seriously-wtf-gif-12341428")
+
+			else:
+				if message.author.id == 723242226855182468:
+					return await message.reply("<@478815409177362432> <@569163565160857620> U 2")
+				
+				else:
+					return await message.reply("<@723242226855182468> U")
+
+		
+	#AI CHAT FUNCTION
+	if message.channel.id == 869011766066163742:
+		if "@everyone" not in message.content and "@here" not in message.content:
+			
+			async with randomstuff.AsyncClient(api_key="tQeJ9s1ZRUQt") as client:
+				response = await client.get_ai_response(message.content)
+				await message.reply(response.message)	
+					
+		else:
+			await message.reply("You really thought that would work? <:yay:867816037079318568>")
+
+	
+	else:
+		await bot.process_commands(message)
  
 
 #━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━#
@@ -471,7 +475,7 @@ async def on_member_join(member):
 	empty_role = bot.get_guild(795726142161944637).get_role(818950383216623696)
 	
 	embed = Embed(title=f"{member.name} Just joined {member.guild.name}!", 
-						color =0x000000, timestap=datetime.utcnow())
+						color =embed_color, timestap=datetime.utcnow())
 	embed.set_thumbnail(url=member.avatar_url)
 	fields = [("Name", f"**{member.mention}丨{member.name}#{member.discriminator}**", False),
 				("ID", f"{member.id}", False),				
@@ -494,7 +498,7 @@ async def on_member_join(member):
 	except asyncio.TimeoutError:
 		await this.clear_reaction("✅")
 		embed = Embed(title=f"{member.name} Just joined {member.guild.name}!", 
-						color =0x000000, timestap=datetime.utcnow())
+						color =embed_color, timestap=datetime.utcnow())
 		embed.set_thumbnail(url=member.avatar_url)
 		fields = [("Name", f"**{member.mention}丨{member.name}#{member.discriminator}**", False),
 					("ID", f"{member.id}", False),				
@@ -510,7 +514,7 @@ async def on_member_join(member):
 		await this.clear_reaction("✅")
 		await member.add_roles(empty_role)
 		embed = Embed(title=f"{member.name} Just joined {member.guild.name}!", 
-						color =0x000000, timestap=datetime.utcnow())
+						color =embed_color, timestap=datetime.utcnow())
 		embed.set_thumbnail(url=member.avatar_url)
 		fields = [("Name", f"**{member.mention}丨{member.name}#{member.discriminator}**", False),
 					("ID", f"{member.id}", False),				
@@ -538,14 +542,14 @@ async def on_message_delete(message):
 			for s in message.mentions:
 				channel_embed=Embed(title="Ghost Ping",
 					description=f"**{s.mention} was ghost pinged by {message.author.mention}**",
-					color=0x000000, 
+					color=embed_color, 
 					timestamp=datetime.utcnow())
 				fields = [("Message", f"{message.content}", False)]
 				for name, value, inline in fields:
 					channel_embed.add_field(name=name, value=value, inline=inline)
 				await message.channel.send(embed=channel_embed)
 				
-				log_embed=Embed(title="Ghost Ping",color=0x000000, timestamp=datetime.utcnow())
+				log_embed=Embed(title="Ghost Ping",color=embed_color, timestamp=datetime.utcnow())
 				log_embed.set_thumbnail(url=f"{message.author.avatar_url}")
 				fields = [("Ping By", f"{message.author.name}#{message.author.discriminator}", True),
 						("Ping To", f"{s.name}#{s.discriminator}", False),
@@ -576,7 +580,7 @@ async def on_message_delete(message):
 # async def playlist():
 # 	await asyncio.sleep(86400)
 # 	embed = Embed(description="**[My stupid playlist](spotify:playlist:1eoCjzINYSgvJXDbt6T7kA) \n [Ahh Sad Boy Hours Sigh](spotify:playlist:7Mu7AxSsveFAWtN9kUnOEf) \n [Take this one also cuz why not](spotify:playlist:5ESl8XOwhjt8PD2gHzWMxn) \n Idk why im doing this...**",
-# 		color=0x000000)
+# 		color=embed_color)
 # 	# return await this_channel.send(embed=embed)
 # 	print("2nd loop")
 
@@ -604,7 +608,7 @@ async def on_ready():
 	await config_channel.send(f"{randchoice(choice)}")
 	
 	# gateway = bot.get_guild(795726142161944637).get_channel(826460762695270432)
-	# embed = Embed(description="**Ping either <@726480855689724105> or <@723242226855182468> for roles**", color=0x000000)
+	# embed = Embed(description="**Ping either <@726480855689724105> or <@723242226855182468> for roles**", color=embed_color)
 	# embed.set_author(name="Welcome To Empty", icon_url = "https://cdn.discordapp.com/emojis/847601058904932362.png?v=1")
 	# await gateway.send(embed=embed)
 	
