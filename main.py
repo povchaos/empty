@@ -449,7 +449,7 @@ async def on_message(message):
 
 		
 	#AI CHAT FUNCTION
-	if message.channel.id == 869011766066163742:
+	if message.channel.id == 870630067187879997:
 		if "@everyone" not in message.content and "@here" not in message.content:
 			
 			async with randomstuff.AsyncClient(api_key="tQeJ9s1ZRUQt") as client:
