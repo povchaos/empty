@@ -10,6 +10,8 @@ from typing import Optional
 from random import choice as randchoice
 from discord.ext import tasks
 import randomstuff
+from googletrans import Translator
+import googletrans
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix="!", intents=intents)
@@ -40,9 +42,9 @@ async def show_help(ctx):
 	embed = Embed(title="Help",
 		description=f"I have a total of **{len(bot.commands)}** commands \n My current prefix is **{ctx.prefix}**",
 		color=embed_color)
-	embed.add_field(name = "Miscellaneous Commands", value = " `ping`, `setnick`, `avatar`, `role`, `remindme`", inline = False)
+	embed.add_field(name = "Miscellaneous Commands", value = " `ping`, `setnick`, `avatar`, `role`, `remindme`, `translate`", inline = False)
 	embed.add_field(name = "Moderation Commands", value = "`kick`, `ban`", inline = False)
-	embed.add_field(name = "Functions", value = "**・**Replys to `imy`, `ily`, `ihy`, `gay` and `ban` \n **・** Ai-chat aka <#869011766066163742> \n **・** Ghost ping detector \n **・** Modmail system \n **・** Keyword reactions", inline = False)
+	embed.add_field(name = "Functions", value = "**・**Replys to `imy`, `ily`, `ihy`, `gay` and `ban` \n **・** Ai-chat aka <#870630067187879997> \n **・** Ghost ping detector \n **・** Modmail system \n **・** Keyword reactions \n  **・** Pins messages when you reply to a message with `pin this`, `unpin this` for unpinning messages", inline = False)
 	embed.add_field(name = "Chad Developer", value = "<@726480855689724105>丨Lord Chaos#3393", inline = False)
 	embed.set_thumbnail(url = guild.me.avatar_url)
 	await ctx.channel.send(embed=embed)
@@ -64,6 +66,18 @@ async def roles(ctx, target: discord.Member, role: discord.Role):
 	except Forbidden:
 		embed = Embed(description=f"You cannot edit roles for {target.mention}", color=embed_color)
 		await ctx.channel.send(embed=embed)
+
+@bot.command(name="translate", aliases = ["t"])
+async def translate(ctx, lang, *sentence):
+    lang = lang.lower()
+    if lang not in googletrans.LANGUAGES and lang not in googletrans.LANGCODES:
+        await ctx.reply("huh?")
+
+    else:
+	    text = ' '.join(sentence)
+	    translator = Translator()
+	    text_translated = translator.translate(text, dest= lang)
+	    await ctx.reply(text_translated.text)
 
 #SAY COMMAND
 @bot.command(name="say")
@@ -154,9 +168,9 @@ async def show_help(ctx):
 	embed = Embed(title="Help",
 		description=f"I have a total of **{len(bot.commands)}** commands \n My current prefix is **{ctx.prefix}**",
 		color=embed_color)
-	embed.add_field(name = "Miscellaneous Commands", value = " `ping`, `setnick`, `avatar`, `role`, `remindme`", inline = False)
+	embed.add_field(name = "Miscellaneous Commands", value = " `ping`, `setnick`, `avatar`, `role`, `remindme`, `translate`", inline = False)
 	embed.add_field(name = "Moderation Commands", value = "`kick`, `ban`", inline = False)
-	embed.add_field(name = "Functions", value = "**・**Replys differently to `imy`, `ily`, `ihy`, `gay` and `ban` depending on the situation` \n **・** Ai-chat aka <#869011766066163742> \n **・** Ghost ping detector \n **・** Modmail System \n **・** Keyword reactions", inline = False)
+	embed.add_field(name = "Functions", value = "**・**Replys to `imy`, `ily`, `ihy`, `gay` and `ban` \n **・** Ai-chat aka <#870630067187879997> \n **・** Ghost ping detector \n **・** Modmail system \n **・** Keyword reactions \n  **・** Pins messages when you reply to a message with `pin this`, `unpin this` for unpinning messages", inline = False)
 	embed.add_field(name = "Chad Developer", value = "<@726480855689724105>丨Lord Chaos#3393", inline = False)
 	embed.set_thumbnail(url = guild.me.avatar_url)
 	await ctx.send(embed=embed)
@@ -459,6 +473,41 @@ async def on_message(message):
 		else:
 			await message.reply("You really thought that would work? <:yay:867816037079318568>")
 
+	#PIN MESSAGE EVENT
+	if message.content == "Pin this" or message.content == "pin this":
+		if message.reference is not None:
+			if message.reference.cached_message is None:
+				channel = bot.get_channel(message.reference.channel_id)
+				msg = await channel.fetch_message(message.reference.message_id)
+				await msg.pin()
+				await message.reply(f"Message pinned successfully")				
+			
+			else:
+				msg = message.reference.cached_message
+				await msg.pin()
+				await message.reply(f"Aight")
+
+	#UNPIN MESSAGE EVENT
+	if message.content == "Unpin this" or message.content == "unpin this":
+		if message.reference is not None:
+			if message.reference.cached_message is None:
+				channel = bot.get_channel(message.reference.channel_id)
+				msg = await channel.fetch_message(message.reference.message_id)
+				if msg.pinned:
+					await msg.unpin()
+					await message.reply(f"Aight")
+
+				else:
+					await message.reply("That message is not pinned!")
+			
+			else:
+				msg = message.reference.cached_message
+				if msg.pinned:
+					await msg.unpin()
+					await message.reply(f"Message unpinned successfully")
+
+				else:
+					await message.reply("That message is not pinned!")
 	
 	else:
 		await bot.process_commands(message)
