@@ -614,24 +614,22 @@ async def on_message_delete(message):
 
 
 
-# #LOOPS
-# @tasks.loop(seconds = 86400*2)
-# async def how_are_you():
-# 	await asyncio.sleep(86400)
-# 	this_channel = bot.get_guild(795726142161944637).get_channel(842185255221198858)
-# 	greetings = ["Whats up nibbe", "Hows it going nibbe?", "How have you been nibbe?", "How are you doing nibbe?", "Check pins",
-# 	"Whats cooking nibbe?", "Long time no see nibbe...", "Sup nibbe?", "Hey nibbe", "What’s up Ameena", "Whats cooking nibbe?",
-# 	"Kiya howa?", "Kiya chal raha hay?", "You ok nibbe?", "Idk why im doing this...", "Why am i doing this again...?", "Sigh"]
-# 	# return await this_channel.send(f"<@723242226855182468> {randchoice(greetings)}")
-# 	print({randchoice(greetings)})
+#LOOPS
+@tasks.loop(seconds = 86400*2)
+async def how_are_you():
+	await asyncio.sleep(86400)
+	
+	this_channel = bot.get_guild(795726142161944637).get_channel(842185255221198858)
 
-# @tasks.loop(seconds = 86400*2)
-# async def playlist():
-# 	await asyncio.sleep(86400)
-# 	embed = Embed(description="**[My stupid playlist](spotify:playlist:1eoCjzINYSgvJXDbt6T7kA) \n [Ahh Sad Boy Hours Sigh](spotify:playlist:7Mu7AxSsveFAWtN9kUnOEf) \n [Take this one also cuz why not](spotify:playlist:5ESl8XOwhjt8PD2gHzWMxn) \n Idk why im doing this...**",
-# 		color=embed_color)
-# 	# return await this_channel.send(embed=embed)
-# 	print("2nd loop")
+	name_choice = ["ameena","muniya \nhehehehe","nibbe","fatty","shorty","ugly","babloo \nlmao","chanda \nahahahah","loser"]
+	name = randchoice(name_choice)	
+	
+	greetings = [f"Maira `ily` kahan hay {name}???", f"Whats up {name}", f"Hows it going {name}?", f"How have you been {name}?", f"How are you doing {name}?",
+	f"Whats cooking {name}?", f"Sup {name}?", f"Hey {name}", f"What’s up {name}", f"Whats cooking {name}?",
+	f"Kiya howa {name}?", f"Kiya chal raha hay {name}?", f"You ok {name}?", f"Idk why im doing this...", "Why am i doing this again...?", "Sigh"]
+
+	final = randchoice(greetings)
+	return await this_channel.send(f"<@723242226855182468> {final}")
 
 
 
@@ -643,7 +641,7 @@ async def on_message_delete(message):
 @bot.event
 async def on_ready():
 	config_channel = bot.get_guild(795726142161944637).get_channel(859726638111260692)
-	# how_are_you.start()
+	how_are_you.start()
 	# playlist.start()
 	await bot.change_presence(status = discord.Status.dnd ,activity=discord.Activity(type=discord.ActivityType.watching, name="Emptiness"))
 	choice = ["`/help` for help!", "Stop getting pissed on me restarting please, get a life", "Just mute this channel bruh", "Sorry i cant help it", "Use `/help` to view all my commands and functions!",
@@ -655,12 +653,6 @@ async def on_ready():
 	
 	await config_channel.send("<:uhh:847601058904932362>")
 	await config_channel.send(f"{randchoice(choice)}")
-	
-	# gateway = bot.get_guild(795726142161944637).get_channel(826460762695270432)
-	# embed = Embed(description="**Ping either <@726480855689724105> or <@723242226855182468> for roles**", color=embed_color)
-	# embed.set_author(name="Welcome To Empty", icon_url = "https://cdn.discordapp.com/emojis/847601058904932362.png?v=1")
-	# await gateway.send(embed=embed)
-	
 	print("Bot is Ready")
 
 
