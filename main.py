@@ -322,15 +322,15 @@ async def on_message(message):
 			await message.add_reaction(f"{e}")
 
 			
-		#MY PING EVENT	
-		if "726480855689724105" in message.content or "862428136166916096" in message.content:
-			options = ["Yeah hes dead...", "Hes more dead than alive...", "He's gone to get milk...", "He'll be back soon... I hope so", "That user is MIA...",
-			"He's dead bhai...", "Hes dead, find peace dude...", "That user is afk... Since 69 years", "Last online 10 years ago...", "Last online 69 years ago...", "Last online 420 years ago...",
-			"Stop it he's already dead...", "He went to get milk...", "That user is KIA..."]
-			options_2 = ["<:yay:867816037079318568>", "<:whenlifegetsyou:862326647976624188>", "<:weird:820756635609464832>", "<:umm:842192405754806342>",
-			"<:uhh:847601058904932362>", "<:think:847799821096189953>", "<:tears:846841174010363966>", "<:sneer:820757567960776715>", "<:sheesh:842440600774246430>",
-			"<:salute:846442131400556564>", "<:sad:847799874698084362>", "<:ping:823857027314483201>", "<:paink:847800523519164457>", "<:notstonks:820756458928209940>", "<:sweat_1:820756196876615710>", "<:king:820757205703589938>","<:hmm:867836166044778496>", "<:cry_1:820756773585551410>", "<:chad:847799756495388702>", "<:bruh:854678522412924928>", "<:aamna:862291911611777054>"]
-			return await message.reply(f"{randchoice(options_2)} {randchoice(options)}")
+		# #MY PING EVENT	
+		# if "726480855689724105" in message.content or "862428136166916096" in message.content:
+		# 	options = ["Yeah hes dead...", "Hes more dead than alive...", "He's gone to get milk...", "He'll be back soon... I hope so", "That user is MIA...",
+		# 	"He's dead bhai...", "Hes dead, find peace dude...", "That user is afk... Since 69 years", "Last online 10 years ago...", "Last online 69 years ago...", "Last online 420 years ago...",
+		# 	"Stop it he's already dead...", "He went to get milk...", "That user is KIA..."]
+		# 	options_2 = ["<:yay:867816037079318568>", "<:whenlifegetsyou:862326647976624188>", "<:weird:820756635609464832>", "<:umm:842192405754806342>",
+		# 	"<:uhh:847601058904932362>", "<:think:847799821096189953>", "<:tears:846841174010363966>", "<:sneer:820757567960776715>", "<:sheesh:842440600774246430>",
+		# 	"<:salute:846442131400556564>", "<:sad:847799874698084362>", "<:ping:823857027314483201>", "<:paink:847800523519164457>", "<:notstonks:820756458928209940>", "<:sweat_1:820756196876615710>", "<:king:820757205703589938>","<:hmm:867836166044778496>", "<:cry_1:820756773585551410>", "<:chad:847799756495388702>", "<:bruh:854678522412924928>", "<:aamna:862291911611777054>"]
+		# 	return await message.reply(f"{randchoice(options_2)} {randchoice(options)}")
 		
 
 		#ILY EVENT [Specific]
