@@ -347,12 +347,14 @@ async def on_message(message):
 						return await message.reply(f"Where is my ily???")
 			
 			if message.author.id == 723242226855182468:
-				choice = [f"Ily 2 nibbe {e}", f"Ily 2 nibbe {e}", f"Ily 2 nibbe  {e}", f"Ily 2 nibbe  {e}", f"Ily 2 nibbe  {e}", f"Ily 2 nibbe  {e}", "ew <:cringe:842192069678334014>", "ew <:cringe:854735604972912640>", "k, no one asked <:faku:847526893842464798>",
-				"but who asked? <:faku:847526893842464798>", "Stap it. Get some help <:cringe:854735604972912640>", "Stap it. Get some help <:cringe:842192069678334014>", "k?"]
+				choice = [f"Ily 2 nibbe {e}", f"Ily 2 nibbe  {e}", f"Ily 2 nibbe  {e}", "ew <:cringe:842192069678334014>",
+				"ew <:cringe:854735604972912640>", "k, no one asked <:faku:847526893842464798>",
+				"but who asked? <:faku:847526893842464798>", "Stap it. Get some help <:cringe:854735604972912640>",
+				"Stap it. Get some help <:cringe:842192069678334014>", "k?", "But who asked?", "Where are the askers?"]
 				return await message.reply(f" {randchoice(choice)}")
 			
 			else:
-				return await message.reply(f"Ily 2 king {e}")
+				return await message.reply(f"Ily 2 nibba {e} \nNo homo obv")
 
 
 		#IHY EVENT [Specific]
@@ -391,8 +393,8 @@ async def on_message(message):
 						return await message.reply(f"And you dont miss me???")
 			
 			if message.author.id == 723242226855182468:
-				choice = [f"Ily 2 nibbe {e}", f"Imy 2 nibbe {e}", f"Imy 2 nibbe {e}", f"Imy 2 nibbe {e}", f"Imy 2 nibbe {e}", f"Imy 2 nibbe {e}", "ew <:cringe:842192069678334014>", "ew <:cringe:854735604972912640>", "k, no one asked <:faku:847526893842464798>",
-				"but who asked? <:faku:847526893842464798>", "Stap it. Get some help <:cringe:854735604972912640>", "Stap it. Get some help <:cringe:842192069678334014>", "k?"]
+				choice = [f"Ily 2 nibbe {e}", f"Imy 2 nibbe {e}",f"Imy 2 nibbe {e}", f"Imy 2 nibbe {e}", "ew <:cringe:842192069678334014>", "ew <:cringe:854735604972912640>", "k, no one asked <:faku:847526893842464798>",
+				"but who asked? <:faku:847526893842464798>", "Stap it. Get some help <:cringe:854735604972912640>", "Stap it. Get some help <:cringe:842192069678334014>", "k?", "But who asked?", "Where are the askers?"]
 				return await message.reply(f" {randchoice(choice)}")
 			
 			else:
@@ -428,38 +430,11 @@ async def on_message(message):
 		
 		#GAY EVENT [Specific]
 		if message.content == "gay" or message.content == "Gay" or message.content == "Gae" or message.content == "gae":
-			if message.reference is not None:
-				if message.reference.cached_message is None:
-					channel = bot.get_channel(message.reference.channel_id)
-					msg = await channel.fetch_message(message.reference.message_id)
-					if msg.author != bot.user:
-						if msg.author.id == 726480855689724105 or msg.author.id == 862428136166916096:
-							return await message.reply("Chaos is chad stfu")
-						
-						else:
-							return await msg.reply("https://tenor.com/view/why-uganda-are-you-gay-you-gif-12775398")
-							
-					else:
-						return await message.reply("https://tenor.com/view/obama-what-seriously-wtf-gif-12341428")
-
-				else:
-					msg = message.reference.cached_message
-					if msg.author != bot.user:
-						if msg.author.id == 726480855689724105 or msg.author.id == 862428136166916096:
-							return await message.reply("Chaos is chad stfu")
-
-						else:
-							return await msg.reply("https://tenor.com/view/why-uganda-are-you-gay-you-gif-12775398")
-							
-					else:
-						return await message.reply("https://tenor.com/view/obama-what-seriously-wtf-gif-12341428")
-
+			if message.author.id == 723242226855182468:
+				return await message.reply("<@478815409177362432> <@569163565160857620>")
+			
 			else:
-				if message.author.id == 723242226855182468:
-					return await message.reply("<@478815409177362432> <@569163565160857620> U 2")
-				
-				else:
-					return await message.reply("<@723242226855182468> U")
+				return await message.reply("<@723242226855182468>")
 
 		
 	#AI CHAT FUNCTION
@@ -480,7 +455,7 @@ async def on_message(message):
 				channel = bot.get_channel(message.reference.channel_id)
 				msg = await channel.fetch_message(message.reference.message_id)
 				await msg.pin()
-				await message.reply(f"Message pinned successfully")				
+				await message.reply(f"Aight")				
 			
 			else:
 				msg = message.reference.cached_message
@@ -504,7 +479,7 @@ async def on_message(message):
 				msg = message.reference.cached_message
 				if msg.pinned:
 					await msg.unpin()
-					await message.reply(f"Message unpinned successfully")
+					await message.reply(f"Aight")
 
 				else:
 					await message.reply("That message is not pinned!")
@@ -581,6 +556,33 @@ async def on_member_join(member):
 
 
 
+#ON RAW REACTION ADD EVENT
+@bot.event
+async def on_raw_reaction_add(payload):
+	if not payload.member.bot:
+		starboard_channel = bot.get_guild(795726142161944637).get_channel(826460762695270432)
+		if payload.emoji == ("📌") or payload.emoji.name == "📌":
+			message = await bot.get_channel(payload.channel_id).fetch_message(payload.message_id)
+			if len(message.content) < 1020:
+	
+				embed = Embed(title= f"{payload.member.name}'s Message",
+					color= embed_color,
+					timestamp = datetime.utcnow())
+				embed.add_field(name = f"Message", value = f"{message.content}", inline = False)
+				embed.add_field(name = f"Link", value = f"[Jump to the original message](https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id})", inline = False)
+				
+				await starboard_channel.send(embed=embed)
+				await message.reply("This message has been pinned in <#826460762695270432>")
+
+			else:
+				await message.reply("This message is too long for me to actually pin...")
+
+
+
+#━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━#
+
+
+
 #ON MESSAGE DELETE EVENT
 @bot.event
 async def on_message_delete(message):
@@ -614,22 +616,22 @@ async def on_message_delete(message):
 
 
 
-#LOOPS
-@tasks.loop(seconds = 86400*2)
-async def how_are_you():
-	await asyncio.sleep(86400)
+# #LOOPS
+# @tasks.loop(seconds = 86400*2)
+# async def how_are_you():
+# 	await asyncio.sleep(86400)
 	
-	this_channel = bot.get_guild(795726142161944637).get_channel(842185255221198858)
+# 	this_channel = bot.get_guild(795726142161944637).get_channel(842185255221198858)
 
-	name_choice = ["ameena","muniya \nhehehehe","nibbe","fatty","shorty","ugly","babloo \nlmao","chanda \nahahahah","loser"]
-	name = randchoice(name_choice)	
+# 	name_choice = ["ameena","muniya \nhehehehe","nibbe","fatty","shorty","ugly","babloo \nlmao","chanda \nahahahah","loser"]
+# 	name = randchoice(name_choice)	
 	
-	greetings = [f"Maira `ily` kahan hay {name}???", f"Whats up {name}", f"Hows it going {name}?", f"How have you been {name}?", f"How are you doing {name}?",
-	f"Whats cooking {name}?", f"Sup {name}?", f"Hey {name}", f"What’s up {name}", f"Whats cooking {name}?",
-	f"Kiya howa {name}?", f"Kiya chal raha hay {name}?", f"You ok {name}?", f"Idk why im doing this...", "Why am i doing this again...?", "Sigh"]
+# 	greetings = [f"Maira `ily` kahan hay {name}???", f"Whats up {name}", f"Hows it going {name}?", f"How have you been {name}?", f"How are you doing {name}?",
+# 	f"Whats cooking {name}?", f"Sup {name}?", f"Hey {name}", f"What’s up {name}", f"Whats cooking {name}?",
+# 	f"Kiya howa {name}?", f"Kiya chal raha hay {name}?", f"You ok {name}?", f"Idk why im doing this...", "Why am i doing this again...?", "Sigh"]
 
-	final = randchoice(greetings)
-	return await this_channel.send(f"<@723242226855182468> {final}")
+# 	final = randchoice(greetings)
+# 	return await this_channel.send(f"<@723242226855182468> {final}")
 
 
 
@@ -641,7 +643,7 @@ async def how_are_you():
 @bot.event
 async def on_ready():
 	config_channel = bot.get_guild(795726142161944637).get_channel(859726638111260692)
-	how_are_you.start()
+	# how_are_you.start()
 	# playlist.start()
 	await bot.change_presence(status = discord.Status.dnd ,activity=discord.Activity(type=discord.ActivityType.watching, name="Emptiness"))
 	choice = ["`/help` for help!", "Stop getting pissed on me restarting please, get a life", "Just mute this channel bruh", "Sorry i cant help it", "Use `/help` to view all my commands and functions!",
