@@ -347,7 +347,7 @@ async def on_message(message):
 						return await message.reply(f"Where is my ily???")
 			
 			if message.author.id == 723242226855182468:
-				choice = [f"Ily 2 nibbe {e}", f"Ily 2 nibbe  {e}", f"Ily 2 nibbe  {e}", "ew <:cringe:842192069678334014>",
+				choice = [f"Ily 2 nibbe  {e}",f"Ily 2 nibbe  {e}",f"Ily 2 nibbe  {e}",f"Ily 2 nibbe  {e}",f"Ily 2 nibbe  {e}",f"Ily 2 nibbe  {e}",f"Ily 2 nibbe  {e}",f"Ily 2 nibbe {e}", f"Ily 2 nibbe  {e}", f"Ily 2 nibbe  {e}", "ew <:cringe:842192069678334014>",
 				"ew <:cringe:854735604972912640>", "k, no one asked <:faku:847526893842464798>",
 				"but who asked? <:faku:847526893842464798>", "Stap it. Get some help <:cringe:854735604972912640>",
 				"Stap it. Get some help <:cringe:842192069678334014>", "k?", "But who asked?", "Where are the askers?"]
@@ -393,7 +393,7 @@ async def on_message(message):
 						return await message.reply(f"And you dont miss me???")
 			
 			if message.author.id == 723242226855182468:
-				choice = [f"Ily 2 nibbe {e}", f"Imy 2 nibbe {e}",f"Imy 2 nibbe {e}", f"Imy 2 nibbe {e}", "ew <:cringe:842192069678334014>", "ew <:cringe:854735604972912640>", "k, no one asked <:faku:847526893842464798>",
+				choice = [f"Imy 2 nibbe {e}",f"Imy 2 nibbe {e}",f"Imy 2 nibbe {e}",f"Imy 2 nibbe {e}",f"Imy 2 nibbe {e}",f"Imy 2 nibbe {e}",f"Imy 2 nibbe {e}",f"Imy 2 nibbe {e}",f"Imy 2 nibbe {e}", f"Imy 2 nibbe {e}",f"Imy 2 nibbe {e}", f"Imy 2 nibbe {e}", "ew <:cringe:842192069678334014>", "ew <:cringe:854735604972912640>", "k, no one asked <:faku:847526893842464798>",
 				"but who asked? <:faku:847526893842464798>", "Stap it. Get some help <:cringe:854735604972912640>", "Stap it. Get some help <:cringe:842192069678334014>", "k?", "But who asked?", "Where are the askers?"]
 				return await message.reply(f" {randchoice(choice)}")
 			
