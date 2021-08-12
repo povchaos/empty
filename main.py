@@ -17,7 +17,7 @@ intents = discord.Intents.all()
 bot = commands.Bot(command_prefix="!", intents=intents)
 slash = SlashCommand(bot, sync_commands=True)
 bot.remove_command("help")
-embed_color = 0x588642
+embed_color = 0x000000
 
 def convert(time):
 		pos = ["s","m","h","d"]
@@ -497,57 +497,74 @@ async def on_message(message):
 #ON MEMBER JOIN EVENT
 @bot.event
 async def on_member_join(member):
-	logs_channel = bot.get_guild(795726142161944637).get_channel(868251065546584124)
-	empty_role = bot.get_guild(795726142161944637).get_role(818950383216623696)
-	
-	embed = Embed(title=f"{member.name} Just joined {member.guild.name}!", 
-						color =embed_color, timestap=datetime.utcnow())
-	embed.set_thumbnail(url=member.avatar_url)
-	fields = [("Name", f"**{member.mention}丨{member.name}#{member.discriminator}**", False),
-				("ID", f"{member.id}", False),				
-				("Joined on", member.joined_at.strftime("%d/%m/%Y"), True),
-				("Create on", member.created_at.strftime("%d/%m/%Y"), True),
-				("Roles Status", f"Do you want me to hand out <@&818950383216623696> role to {member.mention}?** \n **Please react accordingly within `12 hours`** \n __**Roles Status:**__ Pending")]	
-	for name, value, inline in fields:
-		embed.add_field(name=name, value=value, inline=inline)
-
-	this = await logs_channel.send("@everyone",embed=embed)
-	await this.add_reaction("✅")
-
-	def check(reaction, user):
-		return user.id == 726480855689724105 or user.id == 723242226855182468 and str(reaction.emoji) == '✅'
-
-	try:
-		reaction, user = await bot.wait_for('reaction_add', timeout=43200, check=check)
-    
-	except asyncio.TimeoutError:
-		await this.clear_reaction("✅")
+	if member.guild.id == 795726142161944637:
+		logs_channel = bot.get_guild(795726142161944637).get_channel(868251065546584124)
+		empty_role = bot.get_guild(795726142161944637).get_role(818950383216623696)
+		
 		embed = Embed(title=f"{member.name} Just joined {member.guild.name}!", 
-						color =embed_color, timestap=datetime.utcnow())
+							color =embed_color, timestap=datetime.utcnow())
 		embed.set_thumbnail(url=member.avatar_url)
 		fields = [("Name", f"**{member.mention}丨{member.name}#{member.discriminator}**", False),
 					("ID", f"{member.id}", False),				
 					("Joined on", member.joined_at.strftime("%d/%m/%Y"), True),
 					("Create on", member.created_at.strftime("%d/%m/%Y"), True),
-					("Roles Status", f"Session Expired!")]	
+					("Role Status", f"Do you want me to hand out <@&818950383216623696> role to **{member.mention}**? \n Please react accordingly within `12 hours` \n **Role Status:** Pending", False)]	
 		for name, value, inline in fields:
 			embed.add_field(name=name, value=value, inline=inline)
-		await this.edit(embed=embed)
 
-	else:
-		await this.clear_reaction("✅")
-		await member.add_roles(empty_role)
-		embed = Embed(title=f"{member.name} Just joined {member.guild.name}!", 
-						color =embed_color, timestap=datetime.utcnow())
-		embed.set_thumbnail(url=member.avatar_url)
-		fields = [("Name", f"**{member.mention}丨{member.name}#{member.discriminator}**", False),
-					("ID", f"{member.id}", False),				
-					("Joined on", member.joined_at.strftime("%d/%m/%Y"), True),
-					("Create on", member.created_at.strftime("%d/%m/%Y"), True),
-					("Roles Status", f"Roles Added Successfully!")]	
-		for name, value, inline in fields:
-			embed.add_field(name=name, value=value, inline=inline)
-		await this.edit(embed=embed)
+		this = await logs_channel.send("@everyone",embed=embed)
+		await this.add_reaction("✅")
+
+		def check(reaction, user):
+			return user.id == 726480855689724105 or user.id == 723242226855182468 and str(reaction.emoji) == '✅'
+
+		try:
+			reaction, user = await bot.wait_for('reaction_add', timeout=43200, check=check)
+	    
+		except asyncio.TimeoutError:
+			await this.clear_reaction("✅")
+			embed = Embed(title=f"{member.name} Just joined {member.guild.name}!", 
+							color =embed_color, timestap=datetime.utcnow())
+			embed.set_thumbnail(url=member.avatar_url)
+			fields = [("Name", f"**{member.mention}丨{member.name}#{member.discriminator}**", False),
+						("ID", f"{member.id}", False),				
+						("Joined on", member.joined_at.strftime("%d/%m/%Y"), True),
+						("Create on", member.created_at.strftime("%d/%m/%Y"), True),
+						("Role Status", f"Session Expired!", False)]	
+			for name, value, inline in fields:
+				embed.add_field(name=name, value=value, inline=inline)
+			await this.edit(embed=embed)
+
+		else:
+			await this.clear_reaction("✅")
+			for role in member.roles:
+				if empty_role not in member.roles:
+
+					await member.add_roles(empty_role)
+					embed = Embed(title=f"{member.name} Just joined {member.guild.name}!", 
+									color =embed_color, timestap=datetime.utcnow())
+					embed.set_thumbnail(url=member.avatar_url)
+					fields = [("Name", f"**{member.mention}丨{member.name}#{member.discriminator}**", False),
+								("ID", f"{member.id}", False),				
+								("Joined on", member.joined_at.strftime("%d/%m/%Y"), True),
+								("Create on", member.created_at.strftime("%d/%m/%Y"), True),
+								("Role Status", f"Roles Added Successfully!", False)]	
+					for name, value, inline in fields:
+						embed.add_field(name=name, value=value, inline=inline)
+					return await this.edit(embed=embed)
+				
+				else:
+					embed = Embed(title=f"{member.name} Just joined {member.guild.name}!", 
+									color =embed_color, timestap=datetime.utcnow())
+					embed.set_thumbnail(url=member.avatar_url)
+					fields = [("Name", f"**{member.mention}丨{member.name}#{member.discriminator}**", False),
+								("ID", f"{member.id}", False),				
+								("Joined on", member.joined_at.strftime("%d/%m/%Y"), True),
+								("Create on", member.created_at.strftime("%d/%m/%Y"), True),
+								("Role Status", f"{member.mention} already has <@&818950383216623696> role", False)]	
+					for name, value, inline in fields:
+						embed.add_field(name=name, value=value, inline=inline)
+					return await this.edit(embed=embed)
 
 
 
@@ -642,8 +659,11 @@ async def on_message_delete(message):
 @bot.event
 async def on_ready():
 	config_channel = bot.get_guild(795726142161944637).get_channel(859726638111260692)
+	gateway_channel = bot.get_guild(795726142161944637).get_channel(826460762695270432)
+	
 	# how_are_you.start()
 	# playlist.start()
+	
 	await bot.change_presence(status = discord.Status.dnd ,activity=discord.Activity(type=discord.ActivityType.watching, name="Emptiness"))
 	choice = ["`/help` for help!", "Stop getting pissed on me restarting please, get a life", "Just mute this channel bruh", "Sorry i cant help it", "Use `/help` to view all my commands and functions!",
 	"Use `/help` to view all commands", "Why am i doing this again?", "Uhhh ffs", "Send help please", "No one here to say `ily` to me?",
@@ -655,7 +675,6 @@ async def on_ready():
 	await config_channel.send("<:uhh:847601058904932362>")
 	await config_channel.send(f"{randchoice(choice)}")
 	print("Bot is Ready")
-
 
 with open("./token.json") as f:
 	config = json.load(f)
