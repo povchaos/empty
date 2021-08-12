@@ -347,10 +347,12 @@ async def on_message(message):
 						return await message.reply(f"Where is my ily???")
 			
 			if message.author.id == 723242226855182468:
-				choice = [f"Ily 2 nibbe  {e}",f"Ily 2 nibbe  {e}",f"Ily 2 nibbe  {e}",f"Ily 2 nibbe  {e}",f"Ily 2 nibbe  {e}",f"Ily 2 nibbe  {e}",f"Ily 2 nibbe  {e}",f"Ily 2 nibbe {e}", f"Ily 2 nibbe  {e}", f"Ily 2 nibbe  {e}", "ew <:cringe:842192069678334014>",
-				"ew <:cringe:854735604972912640>", "k, no one asked <:faku:847526893842464798>",
-				"but who asked? <:faku:847526893842464798>", "Stap it. Get some help <:cringe:854735604972912640>",
-				"Stap it. Get some help <:cringe:842192069678334014>", "k?", "But who asked?", "Where are the askers?"]
+				choice = [
+				f"Ily 2 nibbe {e}", f"Ily 2 nibbe {e}", f"Ily 2 nibbe {e}", f"Ily 2 nibbe {e}", f"Ily 2 nibbe {e}",
+				f"Ily 2 nibbe {e}",f"Ily 2 nibbe  {e}",f"Ily 2 nibbe {e}", f"Ily 2 nibbe  {e}", f"Ily 2 nibbe  {e}",
+				f"ew <:cringe:842192069678334014>", f"ew <:cringe:854735604972912640>", f"k, no one asked <:faku:847526893842464798>",
+				f"but who asked? <:faku:847526893842464798>", f"Stap it. Get some help <:cringe:842192069678334014>", f"k?", "But who asked?"
+				]
 				return await message.reply(f" {randchoice(choice)}")
 			
 			else:
@@ -505,7 +507,6 @@ async def on_member_join(member):
 				("ID", f"{member.id}", False),				
 				("Joined on", member.joined_at.strftime("%d/%m/%Y"), True),
 				("Create on", member.created_at.strftime("%d/%m/%Y"), True),
-				("Status", str(member.status).title(), True),
 				("Roles Status", f"Do you want me to hand out <@&818950383216623696> role to {member.mention}?** \n **Please react accordingly within `12 hours`** \n __**Roles Status:**__ Pending")]	
 	for name, value, inline in fields:
 		embed.add_field(name=name, value=value, inline=inline)
@@ -528,7 +529,6 @@ async def on_member_join(member):
 					("ID", f"{member.id}", False),				
 					("Joined on", member.joined_at.strftime("%d/%m/%Y"), True),
 					("Create on", member.created_at.strftime("%d/%m/%Y"), True),
-					("Status", str(member.status).title(), True),
 					("Roles Status", f"Session Expired!")]	
 		for name, value, inline in fields:
 			embed.add_field(name=name, value=value, inline=inline)
@@ -544,7 +544,6 @@ async def on_member_join(member):
 					("ID", f"{member.id}", False),				
 					("Joined on", member.joined_at.strftime("%d/%m/%Y"), True),
 					("Create on", member.created_at.strftime("%d/%m/%Y"), True),
-					("Status", str(member.status).title(), True),
 					("Roles Status", f"Roles Added Successfully!")]	
 		for name, value, inline in fields:
 			embed.add_field(name=name, value=value, inline=inline)
