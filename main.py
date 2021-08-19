@@ -576,19 +576,29 @@ async def on_member_join(member):
 @bot.event
 async def on_raw_reaction_add(payload):
 	if not payload.member.bot:
-		starboard_channel = bot.get_guild(795726142161944637).get_channel(826460762695270432)
+		starboard_channel = bot.get_guild(869913291126874143).get_channel(870046749744566312)
 		if payload.emoji == ("📌") or payload.emoji.name == "📌":
 			message = await bot.get_channel(payload.channel_id).fetch_message(payload.message_id)
 			if len(message.content) < 1020:
-	
-				embed = Embed(title= f"{payload.member.name}'s Message",
-					color= embed_color,
-					timestamp = datetime.utcnow())
-				embed.add_field(name = f"Message", value = f"{message.content}", inline = False)
-				embed.add_field(name = f"Link", value = f"[Jump to the original message](https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id})", inline = False)
+				if not len(message.attachments):
+					embed = Embed(title= f"Pinned By {payload.member.name}",
+						color= embed_color,
+						timestamp = datetime.utcnow())					
+					embed.add_field(name = f"Message", value = f"{message.content}", inline = False)
+					embed.add_field(name = f"Link", value = f"[Jump to the original message](https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id})", inline = False)
+					
+					await starboard_channel.send(embed=embed)
+					await message.reply("This message has been posted in <#870046749744566312>")
+
+				else:
+					embed = Embed(title= f"Pinned By {payload.member.name}",
+						color= embed_color,
+						timestamp = datetime.utcnow())					
+					embed.add_field(name = f"Link", value = f"[Jump to the original message](https://discord.com/channels/{message.guild.id}/{message.channel.id}/{message.id})", inline = False)
+					embed.set_image(url=message.attachments[0].url)
 				
-				await starboard_channel.send(embed=embed)
-				await message.reply("This message has been pinned in <#826460762695270432>")
+					await starboard_channel.send(embed=embed)
+					await message.reply("This message has been posted in <#870046749744566312>")
 
 			else:
 				await message.reply("This message is too long for me to actually pin...")
