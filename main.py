@@ -468,18 +468,7 @@ async def on_message(message):
 			
 			else:
 				return await message.reply("<@723242226855182468>")
-
-		
-	#AI CHAT FUNCTION
-	if message.channel.id == 870630067187879997:
-		if "@everyone" not in message.content and "@here" not in message.content:
-			
-			async with randomstuff.AsyncClient(api_key="tQeJ9s1ZRUQt") as client:
-				response = await client.get_ai_response(message.content)
-				await message.reply(response.message)	
-					
-		else:
-			await message.reply("You really thought that would work? <:yay:867816037079318568>")
+				
 
 	#PIN MESSAGE EVENT
 	if message.content == "Pin this" or message.content == "pin this":
