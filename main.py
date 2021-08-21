@@ -12,6 +12,7 @@ from discord.ext import tasks
 import randomstuff
 from googletrans import Translator
 import googletrans
+from discord.ext.commands import has_any_role
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix="!", intents=intents)
@@ -99,6 +100,36 @@ async def set_nick(ctx, target: discord.Member, nickname):
 		await ctx.channel.send(embed=embed)
 	except Forbidden:
 		await ctx.channel.send(f"I cant change **{target.name}#{target.discriminator}**'s name")
+
+# #NUKE COMAMND
+# @bot.command(name="nuke")
+# async def nuke(self, ctx, channel: discord.TextChannel = None):
+# 	allowed = [726480855689724105, 723242226855182468]
+# 	if ctx.author.id in allowed:	
+# 		if channel == None:
+# 			embed = Embed(description=f"**You did not mention a channel\n For example {ctx.channel.mention}**", color=0x000000)
+# 			await ctx.reply(embed=embed)
+# 			return
+
+# 		nuke_channel = discord.utils.get(ctx.guild.channels, name=channel.name)
+
+# 		if nuke_channel is not None:
+# 			new_channel = await nuke_channel.clone(reason="Has been Nuked!")
+# 			await nuke_channel.delete()
+# 			nuke_channel_embed = Embed(description="**This channel has been nuked**",color=0x000000)
+# 			nuke_channel_embed.set_image(url="https://media.giphy.com/media/HhTXt43pk1I1W/giphy.gif")
+# 			await new_channel.send(embed=nuke_channel_embed)
+# 			embed=Embed(description=f"**{new_channel.mention}  Has been nuked sucessfully**", color=0x000000)
+# 			await ctx.reply(embed=embed, delete_after=200)
+
+# 		else:
+# 			emebd = Embed(description=f"**No channel named {channel.name} was found!**")
+# 			await ctx.reply(embed=embed, delete_after=10)
+# 			await ctx.message.delete(delay=15)
+# 	else:
+# 		embed = Embed(description="**Insufficient permissions to perform that task!**")
+# 		await ctx.send(embed=embed) 
+
 
 #REMINDME COMMAND
 @bot.command(name="remindme", description="Set a reminder")
@@ -668,7 +699,7 @@ async def on_message_delete(message):
 #ON READY EVENT
 @bot.event
 async def on_ready():
-	config_channel = bot.get_guild(795726142161944637).get_channel(859726638111260692)
+	config_channel = bot.get_guild(869913291126874143).get_channel(876087881934962738)
 	gateway_channel = bot.get_guild(795726142161944637).get_channel(826460762695270432)
 	
 	# how_are_you.start()
@@ -683,7 +714,7 @@ async def on_ready():
 	"Im gonna fly some planes into a couple buildings in Manhattan \n I-m I-m <@868540085971341362> \n Run tell Obama \n Im your fucking uncle...", "Are you in the mood for 72 virgins? \n And i dont mean dudes who get your computer working", "Will there ever be Middle East peace? \n Nigga please... \n There will always be one or two jehads *atleast*", "Hey <@868540085971341362> kill Obama bismillah..."]
 	
 	await config_channel.send("<:uhh:847601058904932362>")
-	await config_channel.send(f"{randchoice(choice)}")
+	# await config_channel.send(f"{randchoice(choice)}")
 	print("Bot is Ready")
 
 with open("./token.json") as f:
