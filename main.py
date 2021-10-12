@@ -15,10 +15,19 @@ import googletrans
 from discord.ext.commands import has_any_role
 
 intents = discord.Intents.all()
-bot = commands.Bot(command_prefix="!", intents=intents)
+prefix = "!"
+bot = commands.Bot(command_prefix=prefix, intents=intents)
 slash = SlashCommand(bot, sync_commands=True)
 bot.remove_command("help")
 embed_color = 0x000000
+
+
+
+#━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━#
+#FUNCTIONS
+#━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━#
+
+
 
 def convert(time):
 		pos = ["s","m","h","d"]
@@ -36,6 +45,14 @@ def convert(time):
 
 		return val * time_dict[unit]
 
+
+
+#━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━#
+#GENRAL COMMANDS
+#━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━#
+
+
+
 #HELP COMMAND
 @bot.command(name="help",description="Stop it, Get some help")
 async def show_help(ctx):
@@ -45,8 +62,8 @@ async def show_help(ctx):
 		color=embed_color)
 	embed.add_field(name = "Miscellaneous Commands", value = " `ping`, `setnick`, `avatar`, `role`, `remindme`, `translate`", inline = False)
 	embed.add_field(name = "Moderation Commands", value = "`kick`, `ban`", inline = False)
-	embed.add_field(name = "Functions", value = "**・**Replys to `imy`, `ily`, `ihy`, `gay` and `ban` \n **・** Ai-chat aka <#870630067187879997> \n **・** Ghost ping detector \n **・** Modmail system \n **・** Keyword reactions \n  **・** Pins messages when you reply to a message with `pin this`, `unpin this` for unpinning messages", inline = False)
-	embed.add_field(name = "Chad Developer", value = "<@726480855689724105>丨Lord Chaos#3393", inline = False)
+	embed.add_field(name = "Functions", value = "Replys to `imy`, `ily`, `ihy`, `gay` and `ban`, Ghost ping detector, Modmail system, Supports keyword reactions and word specific triggers", inline = False)
+	embed.add_field(name = "Developer", value = "<@726480855689724105>丨Lord Chaos#3393", inline = False)
 	embed.set_thumbnail(url = guild.me.avatar_url)
 	await ctx.channel.send(embed=embed)
 
@@ -68,6 +85,7 @@ async def roles(ctx, target: discord.Member, role: discord.Role):
 		embed = Embed(description=f"You cannot edit roles for {target.mention}", color=embed_color)
 		await ctx.channel.send(embed=embed)
 
+#TRANSLATE COMMAND
 @bot.command(name="translate", aliases = ["t"])
 async def translate(ctx, lang, *sentence):
     lang = lang.lower()
@@ -101,35 +119,62 @@ async def set_nick(ctx, target: discord.Member, nickname):
 	except Forbidden:
 		await ctx.channel.send(f"I cant change **{target.name}#{target.discriminator}**'s name")
 
-# #NUKE COMAMND
-# @bot.command(name="nuke")
-# async def nuke(self, ctx, channel: discord.TextChannel = None):
-# 	allowed = [726480855689724105, 723242226855182468]
-# 	if ctx.author.id in allowed:	
-# 		if channel == None:
-# 			embed = Embed(description=f"**You did not mention a channel\n For example {ctx.channel.mention}**", color=0x000000)
-# 			await ctx.reply(embed=embed)
-# 			return
+#NUKE COMAMND
+@bot.command(name="nuke")
+async def nuke(ctx, channel: discord.TextChannel = None):
+	allowed = [726480855689724105, 723242226855182468]
+	if ctx.author.id in allowed:	
+		if channel == None:
+			embed = Embed(description=f"**You did not mention a channel\n For example {ctx.channel.mention}**", color=0x000000)
+			await ctx.reply(embed=embed)
+			return
 
-# 		nuke_channel = discord.utils.get(ctx.guild.channels, name=channel.name)
+		nuke_channel = discord.utils.get(ctx.guild.channels, name=channel.name)
 
-# 		if nuke_channel is not None:
-# 			new_channel = await nuke_channel.clone(reason="Has been Nuked!")
-# 			await nuke_channel.delete()
-# 			nuke_channel_embed = Embed(description="**This channel has been nuked**",color=0x000000)
-# 			nuke_channel_embed.set_image(url="https://media.giphy.com/media/HhTXt43pk1I1W/giphy.gif")
-# 			await new_channel.send(embed=nuke_channel_embed)
-# 			embed=Embed(description=f"**{new_channel.mention}  Has been nuked sucessfully**", color=0x000000)
-# 			await ctx.reply(embed=embed, delete_after=200)
+		if nuke_channel is not None:
+			new_channel = await nuke_channel.clone(reason="Has been Nuked!")
+			await nuke_channel.delete()
+			nuke_channel_embed = Embed(description="**This channel has been nuked**",color=0x000000)
+			nuke_channel_embed.set_image(url="https://media.giphy.com/media/HhTXt43pk1I1W/giphy.gif")
+			await new_channel.send(embed=nuke_channel_embed)
+			embed=Embed(description=f"**`{new_channel.name}` has been nuked sucessfully**", color=0x000000)
+			await ctx.reply(embed=embed)
 
-# 		else:
-# 			emebd = Embed(description=f"**No channel named {channel.name} was found!**")
-# 			await ctx.reply(embed=embed, delete_after=10)
-# 			await ctx.message.delete(delay=15)
-# 	else:
-# 		embed = Embed(description="**Insufficient permissions to perform that task!**")
-# 		await ctx.send(embed=embed) 
+		else:
+			emebd = Embed(description=f"**No channel named `{channel.name}` was found!**")
+			await ctx.reply(embed=embed)
 
+	else:
+		embed = Embed(description="**Insufficient permissions to perform that task!**")
+		await ctx.send(embed=embed) 
+
+#DELETE COMAMND
+@bot.command(name="delete")
+async def delete_channel(ctx, channel: discord.TextChannel = None):
+	allowed = [726480855689724105, 723242226855182468]
+	if ctx.author.id in allowed:	
+		if channel == None:
+			embed = Embed(description=f"**You did not mention a channel\n For example {ctx.channel.mention}**", color=0x000000)
+			await ctx.reply(embed=embed)
+			return
+
+		nuke_channel = discord.utils.get(ctx.guild.channels, name=channel.name)
+
+		if nuke_channel is not None:
+			await nuke_channel.delete()
+			try:
+				embed=Embed(description=f"**`{nuke_channel.name}` has been deleted sucessfully**", color=0x000000)
+				await ctx.reply(embed=embed)
+			except:
+				embed=Embed(description=f"**`{nuke_channel.name}` has been deleted sucessfully**", color=0x000000)
+				await ctx.author.send(embed=embed)
+		else:
+			emebd = Embed(description=f"**No channel named `{channel.name}` was found!**")
+			await ctx.reply(embed=embed)
+
+	else:
+		embed = Embed(description="**Insufficient permissions to perform that task!**")
+		await ctx.send(embed=embed) 
 
 #REMINDME COMMAND
 @bot.command(name="remindme", description="Set a reminder")
@@ -189,6 +234,8 @@ async def ban(ctx, target: discord.Member, reason = Optional[str] == "No reason 
 
 
 #━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━#
+#SLASH COMMANDS
+#━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━#
 
 
 
@@ -197,12 +244,12 @@ async def ban(ctx, target: discord.Member, reason = Optional[str] == "No reason 
 async def show_help(ctx):
 	guild = ctx.guild
 	embed = Embed(title="Help",
-		description=f"I have a total of **{len(bot.commands)}** commands \n My current prefix is **{ctx.prefix}**",
+		description=f"I have a total of **{len(bot.commands)}** commands \n My current prefix is **{prefix}**",
 		color=embed_color)
 	embed.add_field(name = "Miscellaneous Commands", value = " `ping`, `setnick`, `avatar`, `role`, `remindme`, `translate`", inline = False)
 	embed.add_field(name = "Moderation Commands", value = "`kick`, `ban`", inline = False)
-	embed.add_field(name = "Functions", value = "**・**Replys to `imy`, `ily`, `ihy`, `gay` and `ban` \n **・** Ai-chat aka <#870630067187879997> \n **・** Ghost ping detector \n **・** Modmail system \n **・** Keyword reactions \n  **・** Pins messages when you reply to a message with `pin this`, `unpin this` for unpinning messages", inline = False)
-	embed.add_field(name = "Chad Developer", value = "<@726480855689724105>丨Lord Chaos#3393", inline = False)
+	embed.add_field(name = "Functions", value = "Replys to `imy`, `ily`, `ihy`, `gay` and `ban`, Ghost ping detector, Modmail system, Supports keyword reactions and word specific triggers", inline = False)
+	embed.add_field(name = "Developer", value = "<@726480855689724105>丨Lord Chaos#3393", inline = False)
 	embed.set_thumbnail(url = guild.me.avatar_url)
 	await ctx.send(embed=embed)
 
@@ -275,6 +322,19 @@ async def ping(ctx):
 	embed = Embed(description=f"Pong! Latency is **{round(bot.latency*1000)}** ms",color=embed_color)
 	await ctx.send(embed=embed)
 
+#TRANSLATE COMMAND [Slash]
+@slash.slash(name="trasnalte", description = "Translate any sentence in any language")
+async def translate(ctx, lang, *sentence):
+    lang = lang.lower()
+    if lang not in googletrans.LANGUAGES and lang not in googletrans.LANGCODES:
+        await ctx.send("huh?")
+
+    else:
+	    text = ' '.join(sentence)
+	    translator = Translator()
+	    text_translated = translator.translate(text, dest= lang)
+	    await ctx.send(text_translated.text)
+
 #KICK COMMAND [Slash]
 @slash.slash(name="kick", description="Kick Users")
 async def kick(ctx, target: discord.Member, reason = Optional[str] == "No reason provided"):
@@ -289,8 +349,68 @@ async def ban(ctx, target: discord.Member, reason = Optional[str] == "No reason 
 	embed = Embed(description=f"Successfully banned **{target.name}#{target.discriminator}**", color=embed_color)
 	await ctx.send(embed=embed)
 
+#NUKE COMAMND [Slash]
+@slash.slash(name="nuke", description="Nukes a mentioned channel")
+async def nuke(ctx, channel: discord.TextChannel = None):
+	allowed = [726480855689724105, 723242226855182468]
+	if ctx.author.id in allowed:	
+		if channel == None:
+			embed = Embed(description=f"**You did not mention a channel\n For example {ctx.channel.mention}**", color=0x000000)
+			await ctx.send(embed=embed)
+			return
+
+		nuke_channel = discord.utils.get(ctx.guild.channels, name=channel.name)
+
+		if nuke_channel is not None:
+			new_channel = await nuke_channel.clone(reason="Has been Nuked!")
+			await nuke_channel.delete()
+			nuke_channel_embed = Embed(description="**This channel has been nuked**",color=0x000000)
+			nuke_channel_embed.set_image(url="https://media.giphy.com/media/HhTXt43pk1I1W/giphy.gif")
+			await new_channel.send(embed=nuke_channel_embed)
+			embed=Embed(description=f"**`{new_channel.name}` has been nuked sucessfully**", color=0x000000)
+			await ctx.send(embed=embed)
+
+		else:
+			emebd = Embed(description=f"**No channel named `{channel.name}` was found!**")
+			await ctx.send(embed=embed)
+
+	else:
+		embed = Embed(description="**Insufficient permissions to perform that task!**")
+		await ctx.send(embed=embed)
+
+#DELETE COMAMND [Slash]
+@slash.slash(name="delete", description = "Deletes the mentioned channel")
+async def delete_channel(ctx, channel: discord.TextChannel = None):
+	allowed = [726480855689724105, 723242226855182468]
+	if ctx.author.id in allowed:	
+		if channel == None:
+			embed = Embed(description=f"**You did not mention a channel\n For example {ctx.channel.mention}**", color=0x000000)
+			await ctx.reply(embed=embed)
+			return
+
+		nuke_channel = discord.utils.get(ctx.guild.channels, name=channel.name)
+
+		if nuke_channel is not None:
+			await nuke_channel.delete()
+			try:
+				embed=Embed(description=f"**`{nuke_channel.name}` has been deleted sucessfully**", color=0x000000)
+				await ctx.reply(embed=embed)
+			except:
+				embed=Embed(description=f"**`{nuke_channel.name}` has been deleted sucessfully**", color=0x000000)
+				await ctx.author.send(embed=embed)
+
+		else:
+			emebd = Embed(description=f"**No channel named `{channel.name}` was found!**")
+			await ctx.reply(embed=embed)
+
+	else:
+		embed = Embed(description="**Insufficient permissions to perform that task!**")
+		await ctx.send(embed=embed)
 
 
+
+#━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━#
+#MESSAGE EVENTS
 #━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━#
 
 
@@ -323,7 +443,7 @@ async def on_message(message):
 	#BOT DMS EVENT
 	if isinstance(message.channel, DMChannel):
 		if not message.author.bot:
-			logs_channel = bot.get_guild(795726142161944637).get_channel(868251065546584124)
+			logs_channel = bot.get_guild(795726142161944637).get_channel(826461301806334003)
 			embed = Embed(title="DM Received",
 				description=f"**Message By:** \n {message.author.mention}丨{message.author.name}#{message.author.discriminator} \n\n **Message:** \n {message.content}",
 				color=embed_color,
@@ -379,8 +499,8 @@ async def on_message(message):
 			
 			if message.author.id == 723242226855182468:
 				choice = [
-				f"Ily 2 nibbe {e}", f"Ily 2 nibbe {e}", f"Ily 2 nibbe {e}", f"Ily 2 nibbe {e}", f"Ily 2 nibbe {e}",
-				f"Ily 2 nibbe {e}",f"Ily 2 nibbe  {e}",f"Ily 2 nibbe {e}", f"Ily 2 nibbe  {e}", f"Ily 2 nibbe  {e}",
+				f"Ily 2 {e}", f"Ily 2 {e}", f"Ily 2  {e}", f"Ily 2  {e}", f"Ily 2  {e}",
+				f"Ily 2 {e}",f"Ily 2 {e}",f"Ily 2  {e}", f"Ily 2   {e}", f"Ily 2   {e}",
 				f"ew <:cringe:842192069678334014>", f"ew <:cringe:854735604972912640>", f"k, no one asked <:faku:847526893842464798>",
 				f"but who asked? <:faku:847526893842464798>", f"Stap it. Get some help <:cringe:842192069678334014>", f"k?", "But who asked?"
 				]
@@ -426,7 +546,7 @@ async def on_message(message):
 						return await message.reply(f"And you dont miss me???")
 			
 			if message.author.id == 723242226855182468:
-				choice = [f"Imy 2 nibbe {e}",f"Imy 2 nibbe {e}",f"Imy 2 nibbe {e}",f"Imy 2 nibbe {e}",f"Imy 2 nibbe {e}",f"Imy 2 nibbe {e}",f"Imy 2 nibbe {e}",f"Imy 2 nibbe {e}",f"Imy 2 nibbe {e}", f"Imy 2 nibbe {e}",f"Imy 2 nibbe {e}", f"Imy 2 nibbe {e}", "ew <:cringe:842192069678334014>", "ew <:cringe:854735604972912640>", "k, no one asked <:faku:847526893842464798>",
+				choice = [f"Imy 2  {e}",f"Imy 2  {e}",f"Imy 2  {e}",f"Imy 2  {e}",f"Imy 2  {e}",f"Imy 2  {e}",f"Imy 2  {e}",f"Imy 2  {e}",f"Imy 2  {e}", f"Imy 2  {e}",f"Imy 2  {e}", f"Imy 2  {e}", "ew <:cringe:842192069678334014>", "ew <:cringe:854735604972912640>", "k, no one asked <:faku:847526893842464798>",
 				"but who asked? <:faku:847526893842464798>", "Stap it. Get some help <:cringe:854735604972912640>", "Stap it. Get some help <:cringe:842192069678334014>", "k?", "But who asked?", "Where are the askers?"]
 				return await message.reply(f" {randchoice(choice)}")
 			
@@ -455,7 +575,7 @@ async def on_message(message):
 						return await message.reply("Ban myself? Aight")
 			else:
 				if message.author.id == 723242226855182468:
-					return await message.reply("Ban who nibbe?")
+					return await message.reply("Ban who ?")
 				
 				else:
 					return await message.reply("Ban who nibba?")
@@ -511,6 +631,8 @@ async def on_message(message):
  
 
 #━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━#
+#GUILD JOIN EVENTS
+#━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━#
 
 
 
@@ -518,7 +640,7 @@ async def on_message(message):
 @bot.event
 async def on_member_join(member):
 	if member.guild.id == 795726142161944637:
-		logs_channel = bot.get_guild(795726142161944637).get_channel(868251065546584124)
+		logs_channel = bot.get_guild(795726142161944637).get_channel(826461301806334003)
 		empty_role = bot.get_guild(795726142161944637).get_role(818950383216623696)
 		
 		embed = Embed(title=f"{member.name} Just joined {member.guild.name}!", 
@@ -589,6 +711,8 @@ async def on_member_join(member):
 
 
 #━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━#
+#REACTION EVENTS
+#━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━#
 
 
 
@@ -632,7 +756,7 @@ async def on_raw_reaction_add(payload):
 #ON MESSAGE DELETE EVENT
 @bot.event
 async def on_message_delete(message):
-	logs_channel = bot.get_guild(795726142161944637).get_channel(868251065546584124)
+	logs_channel = bot.get_guild(795726142161944637).get_channel(826461301806334003)
 	guild = bot.get_guild(795726142161944637)
 	if message.mentions:
 		if not message.author == guild.me:
@@ -659,28 +783,7 @@ async def on_message_delete(message):
 
 
 #━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━#
-
-
-
-# #LOOPS
-# @tasks.loop(seconds = 86400*2)
-# async def how_are_you():
-# 	await asyncio.sleep(86400)
-	
-# 	this_channel = bot.get_guild(795726142161944637).get_channel(842185255221198858)
-
-# 	name_choice = ["ameena","muniya \nhehehehe","nibbe","fatty","shorty","ugly","babloo \nlmao","chanda \nahahahah","loser"]
-# 	name = randchoice(name_choice)	
-	
-# 	greetings = [f"Maira `ily` kahan hay {name}???", f"Whats up {name}", f"Hows it going {name}?", f"How have you been {name}?", f"How are you doing {name}?",
-# 	f"Whats cooking {name}?", f"Sup {name}?", f"Hey {name}", f"What’s up {name}", f"Whats cooking {name}?",
-# 	f"Kiya howa {name}?", f"Kiya chal raha hay {name}?", f"You ok {name}?", f"Idk why im doing this...", "Why am i doing this again...?", "Sigh"]
-
-# 	final = randchoice(greetings)
-# 	return await this_channel.send(f"<@723242226855182468> {final}")
-
-
-
+#RUNNING THE BOT
 #━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━#
 
 
@@ -688,7 +791,7 @@ async def on_message_delete(message):
 #ON READY EVENT
 @bot.event
 async def on_ready():
-	config_channel = bot.get_guild(869913291126874143).get_channel(876087881934962738)
+	config_channel = bot.get_guild(795726142161944637).get_channel(819349982305189898)
 	gateway_channel = bot.get_guild(795726142161944637).get_channel(826460762695270432)
 	
 	# how_are_you.start()
