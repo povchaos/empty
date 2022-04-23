@@ -672,7 +672,7 @@ async def on_message(message):
 	#BOT DMS EVENT
 	if isinstance(message.channel, DMChannel):
 		if not message.author.bot:
-			logs_channel = bot.get_guild(929473357311795310).get_channel(929473357311795310)
+			logs_channel = bot.get_guild(929473357311795310).get_channel(929703044919230494)
 			embed = Embed(title="DM Received",
 				description=f"**Message By:** \n {message.author.mention}丨{message.author.name}#{message.author.discriminator} \n\n **Message:** \n {message.content}",
 				color=embed_color,
@@ -699,7 +699,7 @@ async def on_message(message):
 async def on_member_join(member):
 	insert_guild_id_here = 929473357311795310
 	if member.guild.id == insert_guild_id_here:
-		await member.send(f"{member.mention} welcome to Empty Remastered. \nA request has been sent to get you verified, please bear with me until then 😩 \n**Note:** This bot's dms are monitored, you can leave a message anytime...")
+		await member.send(f"{member.mention} welcome to Empty Remastered. \nA request has been sent to get you verified, please wait until then \n**Note:** This bot's dms are monitored, you can leave a message anytime...")
 		logs_channel = bot.get_guild(insert_guild_id_here).get_channel(929702945111568435)
 		empty_role = bot.get_guild(insert_guild_id_here).get_role(929475219784081479)
 		
@@ -743,7 +743,7 @@ async def on_member_join(member):
 				if empty_role not in member.roles:
 
 					await member.add_roles(empty_role)
-					embed = Embed(title=f"{member.name} Just joined {member.guild.name}!", 
+					embed = Embed(title=f"{member.name} has been verified in {member.guild.name}!", 
 									color =embed_color, timestap=datetime.utcnow())
 					embed.set_thumbnail(url=member.avatar_url)
 					fields = [("Name", f"**{member.mention}丨{member.name}#{member.discriminator}**", False),
@@ -753,10 +753,13 @@ async def on_member_join(member):
 								("Status", f"Roles Added Successfully!", False)]	
 					for name, value, inline in fields:
 						embed.add_field(name=name, value=value, inline=inline)
+					now = datetime.utcnow()
+					# print(now.year, now.month, now.day, now.hour, now.minute, now.second)
+					await member.send(f"{member.mention} You have been verified in {member.guild.name} \n**{now.hour}:{now.minute}:{now.second}** - **{now.day}/{now.month}/{now.year}**")
 					return await this.edit(embed=embed)
-				
+					
 				else:
-					embed = Embed(title=f"{member.name} Just joined {member.guild.name}!", 
+					embed = Embed(title=f"{member.name} has been verified in {member.guild.name}!", 
 									color =embed_color, timestap=datetime.utcnow())
 					embed.set_thumbnail(url=member.avatar_url)
 					fields = [("Name", f"**{member.mention}丨{member.name}#{member.discriminator}**", False),
@@ -766,6 +769,8 @@ async def on_member_join(member):
 								("Status", f"{member.mention} already has <@&{empty_role.id}> role!", False)]	
 					for name, value, inline in fields:
 						embed.add_field(name=name, value=value, inline=inline)
+					now = datetime.utcnow()
+					await member.send(f"{member.mention} You have been verified in {member.guild.name} \n**{now.hour}:{now.minute}:{now.second}** - **{now.day}/{now.month}/{now.year}**")
 					return await this.edit(embed=embed)
 
 
