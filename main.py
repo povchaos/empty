@@ -25,7 +25,7 @@ prefix = "!"
 bot = commands.Bot(command_prefix = prefix, intents = intents)
 slash = SlashCommand(bot, sync_commands = True)
 bot.remove_command("help")
-os.chdir("D:\\Empty Bot")
+# os.chdir("D:\\Empty Bot")
 
 
 #QUICK ACCESS DATA
