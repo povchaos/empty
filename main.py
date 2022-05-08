@@ -688,7 +688,7 @@ async def on_message(message):
 
 
 			if message.content == f"{prefix}verify":
-				await message.channel.sned("Command is still under development. I am too lazy to finsih this now...")
+				await message.channel.send("Command is still under development. I am too lazy rn")
 				# logs_channel = bot.get_guild(929473357311795310).get_channel(929703044919230494)
 				
 				# for member in guild.members:
