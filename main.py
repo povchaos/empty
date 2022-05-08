@@ -243,7 +243,7 @@ async def cmd_help(ctx, command):
 
 
 #GENERAL HELP COMMAND
-@bot.command(name="help", help="Responds to the call of help.")
+@bot.command(name="help", help="Imagine being stupid enough to check what the help command does.")
 async def show_help(ctx, cmd: Optional[str]):
 	if cmd is None:
 		embed=Embed(title="Help", color= embed_color)
@@ -596,7 +596,8 @@ async def nuke(ctx, channel: discord.TextChannel = None):
 
 #ON MESSAGE EVENT
 @bot.event
-async def on_message(message):	
+async def on_message(message):
+	guild = bot.get_guild(929473357311795310)	
 
 
 	#Deleting messages in #gateway
@@ -604,61 +605,61 @@ async def on_message(message):
 		await message.delete(delay=60)
 
 
-	#Sending bot updates
-	if message.channel.id == 929734021586501632:
-		updates_channel = bot.get_guild(879392778533077102).get_channel(955751049908609024)
-		embed = Embed(title = "New Update", description = f"{message.content}", color = embed_color)
-		await updates_channel.send(embed = embed)
+	# #Sending bot updates
+	# if message.channel.id == 929734021586501632:
+	# 	updates_channel = bot.get_guild(879392778533077102).get_channel(955751049908609024)
+	# 	embed = Embed(title = "New Update", description = f"{message.content}", color = embed_color)
+	# 	await updates_channel.send(embed = embed)
 
 
-	#Handling suggestions
-	if message.channel.id == 955750968245497867:
-		if not message.author.bot:
-			if message.content != None:
-				if len(message.content) > 5:
+	# #Handling suggestions
+	# if message.channel.id == 955750968245497867:
+	# 	if not message.author.bot:
+	# 		if message.content != None:
+	# 			if len(message.content) > 5:
 					
-					log_channel = bot.get_guild(929473357311795310).get_channel(949933663653613579)
+	# 				log_channel = bot.get_guild(929473357311795310).get_channel(949933663653613579)
 					
-					embed = Embed(description = f"{message.content}",
-						color = embed_color)
-					embed.set_author(name = f"{message.author.display_name}'s Suggestion", icon_url=f"{message.author.avatar_url}")
+	# 				embed = Embed(description = f"{message.content}",
+	# 					color = embed_color)
+	# 				embed.set_author(name = f"{message.author.display_name}'s Suggestion", icon_url=f"{message.author.avatar_url}")
 					
-					reaction_message = await message.channel.send(embed = embed)
-					await log_channel.send(embed = embed)
-					await message.delete()
+	# 				reaction_message = await message.channel.send(embed = embed)
+	# 				await log_channel.send(embed = embed)
+	# 				await message.delete()
 					
-					await reaction_message.add_reaction("👍")
-					await reaction_message.add_reaction("👎")
-					await reaction_message.add_reaction("😓")
+	# 				await reaction_message.add_reaction("👍")
+	# 				await reaction_message.add_reaction("👎")
+	# 				await reaction_message.add_reaction("😓")
 
-				else:
-					await message.channel.send("Your message needs to be longer than 5 characters!", delete_after = 60)
-					await message.delete(delay = 60)
+	# 			else:
+	# 				await message.channel.send("Your message needs to be longer than 5 characters!", delete_after = 60)
+	# 				await message.delete(delay = 60)
 
 
-	#Handling bug reports
-	if message.channel.id == 949933748055588904:
-		if not message.author.bot:
-			if message.content != None:
-				if len(message.content) > 5:
+	# #Handling bug reports
+	# if message.channel.id == 949933748055588904:
+	# 	if not message.author.bot:
+	# 		if message.content != None:
+	# 			if len(message.content) > 5:
 
-					log_channel = bot.get_guild(929473357311795310).get_channel(949933748055588904)
+	# 				log_channel = bot.get_guild(929473357311795310).get_channel(949933748055588904)
 
-					embed = Embed(description = f"{message.content}",
-					color = embed_color)
-					embed.set_author(name = f"{message.author.display_name}'s Bug Report", icon_url=f"{message.author.avatar_url}")
+	# 				embed = Embed(description = f"{message.content}",
+	# 				color = embed_color)
+	# 				embed.set_author(name = f"{message.author.display_name}'s Bug Report", icon_url=f"{message.author.avatar_url}")
 					
-					reaction_message = await message.channel.send(embed = embed)
-					await log_channel.send(embed = embed)
-					await message.delete()
+	# 				reaction_message = await message.channel.send(embed = embed)
+	# 				await log_channel.send(embed = embed)
+	# 				await message.delete()
 					
-					await reaction_message.add_reaction("👍")
-					await reaction_message.add_reaction("👎")
-					await reaction_message.add_reaction("😓")
+	# 				await reaction_message.add_reaction("👍")
+	# 				await reaction_message.add_reaction("👎")
+	# 				await reaction_message.add_reaction("😓")
 
-				else:
-					await message.channel.send("Your message needs to be longer than 5 characters!", delete_after = 60)
-					await message.delete(delay = 60)
+	# 			else:
+	# 				await message.channel.send("Your message needs to be longer than 5 characters!", delete_after = 60)
+	# 				await message.delete(delay = 60)
 
 
 	#BOT MENTION EVENT
@@ -673,17 +674,101 @@ async def on_message(message):
 	if isinstance(message.channel, DMChannel):
 		if not message.author.bot:
 			logs_channel = bot.get_guild(929473357311795310).get_channel(929703044919230494)
-			embed = Embed(title="DM Received",
-				description=f"**Message By:** \n {message.author.mention}丨{message.author.name}#{message.author.discriminator} \n\n **Message:** \n {message.content}",
-				color=embed_color,
-				timestamp=datetime.utcnow())
-			embed.set_thumbnail(url = f"{message.author.avatar_url}")
-			await logs_channel.send(embed=embed)
-			await message.add_reaction("✅")
+
+			if message.content == f"{prefix}clear":
+					counter = 0
+					this = await message.channel.send("Task initiated... \nThis may take a while depending upon the number of messages you have with the bot...")
+					async for message in message.channel.history(limit=10000):
+						counter += 1
+						if not message == this and message.author == bot.user:
+							await message.delete()
+					
+					await this.delete()
+					return await message.channel.send(f"Your dms have been cleared successfully.")
 
 
-	#KEYWORD EVENTS
-	if not message.author.bot:
+			if message.content == f"{prefix}verify":
+				await message.channel.sned("Command is still under development. I am too lazy to finsih this now...")
+				# logs_channel = bot.get_guild(929473357311795310).get_channel(929703044919230494)
+				
+				# for member in guild.members:
+				# 	if message.author in guild.members:
+				# 		user = message.author
+				# 		for role in user.roles:
+				# 			if empty_role not in user.roles:
+				# 				await logs_channel.send(f"A new verification request has been sent by {message.author.mention} through `{prefix}verify` command in my dms.")
+				# 				return await message.channel.send("I have successfully sent a request to get you verified in the server. \n**Note:** Please do not spam this command as it pings all admins.")
+				# 			else:
+				# 				return await message.channel.send("You are already verified in the server! Ajeeb chawal")
+
+			
+			if message.content.startswith(f"{prefix}modmail"):
+				if len(message.content) > 9:
+					if len(message.content) > 29:
+						if len(message.content) < 2030:
+							modmail = message.content[9:]
+							this_embed = f"Your message consists of **{len(message.content[9:])}** characters \nPlease confirm if you want to send the following message \n```{modmail}``` \n**Reply with either `Yes` or `No`**"
+
+							questions = [this_embed]
+							answers = []
+							
+							def check(m):
+								return m.author == message.author and m.channel == message.channel
+							
+							for i in questions:
+								that = await message.channel.send(i)
+							
+								try:
+									msg = await bot.wait_for('message', timeout=60, check=check)
+								except asyncio.TimeoutError:
+									await message.channel.send("You took too long to reply... \nPlease answer under **1 minute** next time!")
+									return
+								
+								answers.append(msg.content)
+
+							if answers[0] == "Yes" or answers[0] == "yes":
+								embed = Embed(title="Modmail Received",
+									description=f"**Message by {message.author.mention}丨{message.author.name}#{message.author.discriminator}** \n {modmail}",
+									color=0xBC0808,
+									timestamp=datetime.utcnow())
+								embed.set_thumbnail(url = f"{message.author.avatar_url}")
+								modmail_channel = logs_channel
+								await modmail_channel.send(embed=embed)
+								
+								return await that.edit(content = "Your message has been forwarded to the server.")
+							
+							else:
+								ok = await message.channel.send("han yeih kar lo pehlay...", delete_after=30)
+								await message.channel.send("Process has been canceled successfully.")
+								return
+
+						else:
+							return await message.channel.send("Nice presidential debate... \nPlease make sure your message is under **2000** characters next time.")
+					else:
+						return await message.channel.send("Your message needs to be at least **20** characters in length...")
+				else:
+					return await message.channel.send("Try providing a message next time?")
+
+			
+			if message.content == f"{prefix}help":
+				embed = Embed(title = "Help Menu",
+							description = "",
+							color = embed_color)
+				embed.set_thumbnail(url = f"{guild.icon_url}")
+				embed.set_footer(text = "This message will auto-delete after 10 minutes")
+				fields = [("Verification", f"For verification help, use the following syntax: \n```{prefix}verify```" , False),
+							("Modmail", f"For sending a modmail, use the following syntax: \n```{prefix}modmail [Your message here]```" , False),
+							("Clear Dms", f"For clearing bot dms, use the syntax provided below. Note that this will only delete messages sent by the bot itself. \n```{prefix}clear```" , False)]
+				for name , value, inline in fields:
+					embed.add_field(name=name, value=value, inline=inline)
+				
+				return await message.channel.send(embed = embed, delete_after=600)
+
+			if "Help" in message.content or "help" in message.content:
+				return await message.channel.send(f"Use `{prefix}help` to access the help menu.")
+
+
+	else:
 		await bot.process_commands(message)
  
 
@@ -699,7 +784,7 @@ async def on_message(message):
 async def on_member_join(member):
 	insert_guild_id_here = 929473357311795310
 	if member.guild.id == insert_guild_id_here:
-		await member.send(f"{member.mention} welcome to Empty Remastered. \nA request has been sent to get you verified, please wait until then \n**Note:** This bot's dms are monitored, you can leave a message anytime...")
+		await member.send(f"{member.mention} welcome to {member.guild.name} \nA request has been sent to get you verified. You can always send another request through `{prefix}verify` command. \n**Note:** For any queries, you can use the `{prefix}help` command here.")
 		logs_channel = bot.get_guild(insert_guild_id_here).get_channel(929702945111568435)
 		empty_role = bot.get_guild(insert_guild_id_here).get_role(929475219784081479)
 		
@@ -755,7 +840,7 @@ async def on_member_join(member):
 						embed.add_field(name=name, value=value, inline=inline)
 					now = datetime.utcnow()
 					# print(now.year, now.month, now.day, now.hour, now.minute, now.second)
-					await member.send(f"{member.mention} You have been verified in {member.guild.name} \n**{now.hour}:{now.minute}:{now.second}** - **{now.day}/{now.month}/{now.year}**")
+					await member.send(f"{member.mention} You have been verified in {member.guild.name} \n{now.day}-{now.month}-{now.year}")
 					return await this.edit(embed=embed)
 					
 				else:
@@ -770,7 +855,7 @@ async def on_member_join(member):
 					for name, value, inline in fields:
 						embed.add_field(name=name, value=value, inline=inline)
 					now = datetime.utcnow()
-					await member.send(f"{member.mention} You have been verified in {member.guild.name} \n**{now.hour}:{now.minute}:{now.second}** - **{now.day}/{now.month}/{now.year}**")
+					await member.send(f"{member.mention} You have been verified in {member.guild.name} \n{now.day}-{now.month}-{now.year}")
 					return await this.edit(embed=embed)
 
 
@@ -861,6 +946,10 @@ async def on_command_error(ctx, exc):
 
 	else:
 		raise exc
+
+async def on_error(err, *args, **kwargs):
+		if err == "on_command_error":
+			await args[0].send("Something went wrong!")
 
 
 
@@ -1374,7 +1463,14 @@ async def leaderboard(ctx, number = 5):
 
 
 
-#ON READY EVENT
+@bot.event
+async def on_connect():
+	print("Bot Is Connecting...")
+
+@bot.event
+async def on_disconnect():
+	print("Bot Disconnected...")
+
 @bot.event
 async def on_ready():
 	config_channel = bot.get_guild(929473357311795310).get_channel(929702945111568435)
