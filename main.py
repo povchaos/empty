@@ -1483,9 +1483,9 @@ async def on_ready():
 	await config_channel.send("https://media.discordapp.net/attachments/879392779036413957/929689504061739018/847601058904932362.png")
 	print("Bot is Ready")
 	embed = Embed(title = "Welcome to Empty Remastered", 
-				  description = "Check your DMs by the bot for verification details. For any further queries, you can directly reply to <@929688997733728266> with `!help` as the bot's DMs are monitored.",
+				  description = "Check your DMs with the bot for verification details. \nFor any further queries, you can directly reply to <@929688997733728266> with `!help` \nNote that the bot's DMs are monitored.",
 				  color = embed_color)
-	await gateway_channel.send(embed = embed)
+	# await gateway_channel.send(embed = embed)
 
 with open("./token.json") as f:
 	config = json.load(f)
