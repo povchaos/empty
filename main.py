@@ -684,7 +684,8 @@ async def on_message(message):
 							await message.delete()
 					
 					await this.delete()
-					return await message.channel.send(f"Your dms have been cleared successfully.")
+					that = await message.channel.send(f"Your dms have been cleared successfully. \n*This message will auto-delete after 60 seconds.*")
+					return await that.delete(delay = 60)
 
 
 			if message.content == f"{prefix}verify":
@@ -707,7 +708,7 @@ async def on_message(message):
 					if len(message.content) > 29:
 						if len(message.content) < 2030:
 							modmail = message.content[9:]
-							this_embed = f"Your message consists of **{len(message.content[9:])}** characters \nPlease confirm if you want to send the following message \n```{modmail}``` \n**Reply with either `Yes` or `No`**"
+							this_embed = f"Your message consists of **{len(message.content[9:])}** characters \nPlease confirm if you want to send the following message \n```'{modmail}'``` \n**Reply with either `Yes` or `No`**"
 
 							questions = [this_embed]
 							answers = []
@@ -931,8 +932,8 @@ async def on_command_error(ctx, exc):
 		pass
 	
 	elif isinstance(exc, MissingRequiredArgument):
-		await ctx.reply("One or more required arguments are missing!", delete_after=60)
-		await ctx.message.delete(delay=60)
+		command = ctx.command
+		await cmd_help(ctx, command)
 	
 	elif isinstance(exc, CommandOnCooldown):
 		cd = round(exc.retry_after)
@@ -1481,6 +1482,10 @@ async def on_ready():
 	
 	await config_channel.send("https://media.discordapp.net/attachments/879392779036413957/929689504061739018/847601058904932362.png")
 	print("Bot is Ready")
+	embed = Embed(title = "Welcome to Empty Remastered", 
+				  description = "Check your DMs by the bot for verification details. For any further queries, you can directly reply to <@929688997733728266> with `!help` as the bot's DMs are monitored.",
+				  color = embed_color)
+	await gateway_channel.send(embed = embed)
 
 with open("./token.json") as f:
 	config = json.load(f)
