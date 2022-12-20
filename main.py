@@ -4,7 +4,6 @@ from discord import Embed, DMChannel
 import asyncio
 from discord.ext import tasks
 from datetime import datetime
-from discord_slash import SlashCommand
 from discord.errors import Forbidden
 from typing import Optional
 from random import choice as randchoice
@@ -18,6 +17,7 @@ from discord.utils import get
 from typing import Optional
 from discord.ext.commands import CommandNotFound, BadArgument, MissingRequiredArgument, CommandOnCooldown, DisabledCommand, RoleNotFound, MemberNotFound, MissingAnyRole, NotOwner
 
+# Refer to Security.md or README.md for details on supported versions (if any).
 
 #INTENTS AND PREFIX
 intents = discord.Intents.all()
@@ -25,24 +25,19 @@ prefix = "!"
 bot = commands.Bot(command_prefix = prefix, intents = intents)
 slash = SlashCommand(bot, sync_commands = True)
 bot.remove_command("help")
-# os.chdir("D:\\Empty Bot")
+# os.chdir("D:\\DIR") 
+	#(1) 'D' = Disk letter in which the bot file is located.
+	#(2) 'DIR' = Location / Directory / Path to your bot file.
 
 
 #QUICK ACCESS DATA
 embed_color = 0x080404
-allowed = [914092837564481556] #For nuke channel command...
+allowed = [914092837564481556] #For channel nuke command... Insert user ID as integer.
 stuff = [':bouquet:',':ear_of_rice:',':potted_plant:',':tulip:',':rose:',':hibiscus:',':cherry_blossom:',':blossom:',':sunflower:',':shell:']
 names = ['Jenny','Lauren','Humble','Dan','Matthew','Blacksmith','Clarke','Simon','Christian','Hector','Albert','Vader','Walker','Phillip']
 randomitem = [':soccer:',':boomerang:',':yo_yo:',':badminton:',':lacrosse:',':roller_skate:',':musical_keyboard:',':video_game:',':dart:',':jigsaw:',':violin:',':microphone:',':trophy:',':video_camera:',':film_frames:',':fire_extinguisher:',':syringe:',':magic_wand:',':pill:',':sewing_needle:']
-mainshop = [{"name":"Anda-Paratha","price":100,"description":"Economical"},
-			{"name":"Kebab","price":200,"description":"Goes well with anything!"},
-			{"name":"Shwarma","price":600,"description":"I don't know what to add here"},
-			{"name":"Daal","price":250,"description":"Same here"},
-			{"name":"Roti","price":150,"description":"And here"},
-			{"name":"Chanay","price":750,"description":"And here"},
-			{"name":"Hoes","price":6969,"description":"Bang bang"},
-			{"name":"Astagfar","price":10,"description":"Be sure to get this after getting ze hoes"},
-			{"name":"Alloo-Keema","price":1100,"description":"Zubair asked for this"}]
+mainshop = [{"name" : "Insert-Name-Here", "price" : Insert-Price-Here-As-Integer, "description":"Insert-Description-Here"},
+			{"name" : "Insert-Name-Here", "price" : Insert-Price-Here-As-Integer, "description" : "Insert-Description-Here"}]
 huntanimals = [':hamster:',':rabbit:',':fox:',':bear:',':chicken:',':baby_chick:',':hatching_chick:',0]
 fishcate = [':fish:',':tropical_fish:',':blowfish:',0,':octopus:',':squid:',':dolphin:',':shark:']
 
@@ -257,7 +252,7 @@ async def show_help(ctx, cmd: Optional[str]):
 					("Individual Commands Help", f"To view help for individual commands, use the following syntax \n```{ctx.prefix}help <command>```", False)]
 		for name , value, inline in fields:
 			embed.add_field(name=name, value=value, inline=inline)
-		await ctx.reply(embed=embed)
+		await ctx.reply(embed=embed, hidden = True)
 	
 	else:
 		if (command := get(bot.commands, name=cmd)):
@@ -597,7 +592,7 @@ async def nuke(ctx, channel: discord.TextChannel = None):
 #ON MESSAGE EVENT
 @bot.event
 async def on_message(message):
-	guild = bot.get_guild(929473357311795310)	
+	guild = bot.get_guild(929473357311795310) # Swap Guild ID
 
 
 	#Deleting messages in #gateway
@@ -605,7 +600,7 @@ async def on_message(message):
 		await message.delete(delay=60)
 
 
-	# #Sending bot updates
+	# #PUBLISHING BOT UPDATES
 	# if message.channel.id == 929734021586501632:
 	# 	updates_channel = bot.get_guild(879392778533077102).get_channel(955751049908609024)
 	# 	embed = Embed(title = "New Update", description = f"{message.content}", color = embed_color)
@@ -618,7 +613,7 @@ async def on_message(message):
 	# 		if message.content != None:
 	# 			if len(message.content) > 5:
 					
-	# 				log_channel = bot.get_guild(929473357311795310).get_channel(949933663653613579)
+	# 				log_channel = bot.get_guild(929473357311795310).get_channel(949933663653613579) # Swap Guild ID and Channel ID
 					
 	# 				embed = Embed(description = f"{message.content}",
 	# 					color = embed_color)
@@ -637,13 +632,13 @@ async def on_message(message):
 	# 				await message.delete(delay = 60)
 
 
-	# #Handling bug reports
+	# #HANDLING BUG REPORTS
 	# if message.channel.id == 949933748055588904:
 	# 	if not message.author.bot:
 	# 		if message.content != None:
 	# 			if len(message.content) > 5:
 
-	# 				log_channel = bot.get_guild(929473357311795310).get_channel(949933748055588904)
+	# 				log_channel = bot.get_guild(929473357311795310).get_channel(949933748055588904) # Swap Guild ID and Channel ID
 
 	# 				embed = Embed(description = f"{message.content}",
 	# 				color = embed_color)
@@ -673,8 +668,10 @@ async def on_message(message):
 	#BOT DMS EVENT
 	if isinstance(message.channel, DMChannel):
 		if not message.author.bot:
-			logs_channel = bot.get_guild(929473357311795310).get_channel(929703044919230494)
+			logs_channel = bot.get_guild(929473357311795310).get_channel(929703044919230494) # Swap Guild ID and Channel ID
 
+			
+			# CLEARING DMS
 			if message.content == f"{prefix}clear":
 					counter = 0
 					this = await message.channel.send("Task initiated... \nThis may take a while depending upon the number of messages you have with the bot...")
@@ -688,9 +685,14 @@ async def on_message(message):
 					return await that.delete(delay = 60)
 
 
+			# VERIFICATION
 			if message.content == f"{prefix}verify":
 				await message.channel.send("Command is still under development. I am too lazy rn")
-				# logs_channel = bot.get_guild(929473357311795310).get_channel(929703044919230494)
+
+				# ( never touched this function, not even once... )
+				# ( everything below is pretty much bullshit. doesnt do shit )
+				
+				# logs_channel = bot.get_guild(929473357311795310).get_channel(929703044919230494) # Swap Guild ID and Channel ID
 				
 				# for member in guild.members:
 				# 	if message.author in guild.members:
@@ -703,6 +705,7 @@ async def on_message(message):
 				# 				return await message.channel.send("You are already verified in the server! Ajeeb chawal")
 
 			
+			# MODMAIL
 			if message.content.startswith(f"{prefix}modmail"):
 				if len(message.content) > 9:
 					if len(message.content) > 29:
@@ -751,6 +754,7 @@ async def on_message(message):
 					return await message.channel.send("Try providing a message next time?")
 
 			
+			# DM HELP COMMAND
 			if message.content == f"{prefix}help":
 				embed = Embed(title = "Help Menu",
 							description = "",
@@ -783,11 +787,12 @@ async def on_message(message):
 #ON MEMBER JOIN EVENT
 @bot.event
 async def on_member_join(member):
-	insert_guild_id_here = 929473357311795310
+	insert_guild_id_here = 929473357311795310 # Swap Guild ID
 	if member.guild.id == insert_guild_id_here:
 		await member.send(f"{member.mention} welcome to {member.guild.name} \nA request has been sent to get you verified. You can always send another request through `{prefix}verify` command. \n**Note:** For any queries, you can use the `{prefix}help` command here.")
 		logs_channel = bot.get_guild(insert_guild_id_here).get_channel(929702945111568435)
 		empty_role = bot.get_guild(insert_guild_id_here).get_role(929475219784081479)
+		admin_role = bot.get_guild(insert_guild_id_here).get_role(929732908149788743)
 		
 		embed = Embed(title=f"{member.name} Just joined {member.guild.name}!", 
 							color =embed_color, timestap=datetime.utcnow())
@@ -796,7 +801,7 @@ async def on_member_join(member):
 					("ID", f"{member.id}", False),				
 					("Joined on", member.joined_at.strftime("%d/%m/%Y"), True),
 					("Create on", member.created_at.strftime("%d/%m/%Y"), True),
-					("Role Status", f"Do you want me to hand out **<@&{empty_role.id}>** role to **{member.mention}**? \n Please react accordingly within `12 hours` \n **Status:** Pending...", False)]	
+					("Role Status", f"Do you want me to hand out **<@&{empty_role.id}>** role to **{member.mention}**? \n Please react accordingly within `2 hours` \n **Status:** Pending...", False)]	
 		for name, value, inline in fields:
 			embed.add_field(name=name, value=value, inline=inline)
 
@@ -804,10 +809,10 @@ async def on_member_join(member):
 		await this.add_reaction("✅")
 
 		def check(reaction, user):
-			return user != user.bot and str(reaction.emoji) == '✅'
+			return user != user.bot and str(reaction.emoji) == '✅' and admin_role in user.roles
 
 		try:
-			reaction, user = await bot.wait_for('reaction_add', timeout=43200, check=check)
+			reaction, user = await bot.wait_for('reaction_add', timeout=7200, check=check)
 	    
 		except asyncio.TimeoutError:
 			await this.clear_reaction("✅")
@@ -871,7 +876,7 @@ async def on_member_join(member):
 @bot.event
 async def on_raw_reaction_add(payload):
 	if not payload.member.bot:
-		starboard_channel = bot.get_guild(929473357311795310).get_channel(929702972835913778)
+		starboard_channel = bot.get_guild(929473357311795310).get_channel(929702972835913778) # Swap Guild ID and Channel ID
 		if payload.emoji == ("📌") or payload.emoji.name == "📌":
 			message = await bot.get_channel(payload.channel_id).fetch_message(payload.message_id)
 			if len(message.content) < 1020:
@@ -963,8 +968,8 @@ async def on_error(err, *args, **kwargs):
 #ON MESSAGE DELETE EVENT
 @bot.event
 async def on_message_delete(message):
-	guild = bot.get_guild(929473357311795310)
-	logs_channel = bot.get_guild(929473357311795310).get_channel(929703044919230494)
+	guild = bot.get_guild(929473357311795310) # Swap Guild ID
+	logs_channel = bot.get_guild(929473357311795310).get_channel(929703044919230494) # Swap Guild ID and Channel ID
 	
 	if message.mentions:
 		if not message.author == guild.me:
@@ -1474,22 +1479,18 @@ async def on_disconnect():
 
 @bot.event
 async def on_ready():
-	config_channel = bot.get_guild(929473357311795310).get_channel(929702945111568435)
-	gateway_channel = bot.get_guild(929473357311795310).get_channel(929474964619419708)
+	config_channel = bot.get_guild(929473357311795310).get_channel(929702945111568435) # Swap Guild ID and Channel ID
+	gateway_channel = bot.get_guild(929473357311795310).get_channel(929474964619419708) # Swap Guild ID and Channel ID
 	
 	await bot.change_presence(status = discord.Status.dnd ,activity=discord.Activity(type=discord.ActivityType.watching, name="Emptiness"))
 	choice = []
 	
 	await config_channel.send("https://media.discordapp.net/attachments/879392779036413957/929689504061739018/847601058904932362.png")
 	print("Bot is Ready")
-	embed = Embed(title = "Welcome to Empty Remastered", 
-				  description = "Check your DMs with the bot for verification details. \nFor any further queries, you can directly reply to <@929688997733728266> with `!help` \nNote that the bot's DMs are monitored.",
-				  color = embed_color)
-	# await gateway_channel.send(embed = embed)
 
 with open("./token.json") as f:
 	config = json.load(f)
 
 token = config.get("token")
-bot.run(token)
+bot.run(token) # Be sure to insert your token in token.json file in the provided parenthesis 
 
